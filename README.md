@@ -1,1 +1,1 @@
-# Turning-Point-Equestrian-Center-
+# Turning-Point-Equestrian-Center
