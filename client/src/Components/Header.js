@@ -27,7 +27,7 @@ const BlackOut = styled.div`
     position: absolute;
     background: black;
     opacity: 0.5;
-    width: 100vw;
+    width: 100%;
     height: 61vh;
 `;
 const Container = styled.div`
@@ -35,17 +35,17 @@ const Container = styled.div`
     justify-content: space-between;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
     height: 100vh;
     background-image: url("/images/background.jfif");
     background-repeat: no-repeat;
-    overflow: hidden;
 `;
 
 const Head = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100vw;
+    width: 150%;
     height: fit-content;
     margin-top: 20px;
 `;

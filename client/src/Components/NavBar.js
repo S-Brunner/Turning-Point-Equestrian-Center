@@ -18,12 +18,11 @@ const NavBar = () => {
 const Container = styled.div`
     position: sticky;
     top: 0;
-    margin-top: -20%;
+    margin-top: -20.5%;
     margin-bottom: 18%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100vw;
     height: 50px;
     font-size: 18px;
     background: #482109;
