@@ -7,47 +7,36 @@ import { GiHorseshoe } from "react-icons/gi"
 
 const Header = () => {
     return(
-            <Container>
-                <BlackOut></BlackOut>
-                <Head>
-                    <LinkContainer>
-                        <H1 to="/">Turning Point Equestrian Center</H1>
-                        <LinkWrapper>
-                            <A target="_blank" href="https://www.facebook.com/ParksideRanch"><IoLogoFacebook /></A>
-                            <A className="insta" target="_blank" href="https://www.instagram.com/parksideranch/"><BsInstagram /></A>
-                            <A className="main" target="_blank" href="https://parksideranch.com/"><GiHorseshoe /></A>
-                        </LinkWrapper>
-                    </LinkContainer>
-                    <ImgContainer to="/"><Img src="/images/logo.png"/></ImgContainer>
-                </Head>
-            </Container>
+        <>
+            <Head>
+                <BlackOut />
+                <LinkContainer>
+                    <H1 to="/">Turning Point Equestrian Center</H1>
+                    <LinkWrapper>
+                        <A target="_blank" href="https://www.facebook.com/ParksideRanch"><IoLogoFacebook /></A>
+                        <A className="insta" target="_blank" href="https://www.instagram.com/parksideranch/"><BsInstagram /></A>
+                        <A className="main" target="_blank" href="https://parksideranch.com/"><GiHorseshoe /></A>
+                    </LinkWrapper>
+                </LinkContainer>
+                <ImgContainer to="/"><Img src="/images/logo.png"/></ImgContainer>
+            </Head>
+        </>
     )
 }
-const BlackOut = styled.div`
-    position: absolute;
-    background: black;
-    opacity: 0.5;
-    width: 100%;
-    height: 61vh;
-`;
-const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    height: 100vh;
-    background-image: url("/images/background.jfif");
-    background-repeat: no-repeat;
-`;
 
+const BlackOut = styled.div`
+        background: rgba(0, 0, 0, 0.49);
+        width: 100%;
+        height: 130vh;
+        position: absolute;
+`;
 const Head = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 150%;
-    height: fit-content;
-    margin-top: 20px;
+    padding-top: 20px;
+    margin-top: 30px;
+    padding-bottom: 20px;
 `;
 
 const LinkWrapper = styled.div`
@@ -60,7 +49,7 @@ const LinkWrapper = styled.div`
 
 const A = styled.a`
     font-size: 60px;
-    color: #3b5998;
+    color: rgb(61, 108, 209);
 
     &.insta {
         font-size: 40px;

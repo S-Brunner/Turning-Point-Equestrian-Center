@@ -1,35 +1,42 @@
 import React from "react";
-import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 const NavBar = () => {
-    return(
-        <Container>
-            <Link to="/about-us">About Us</Link>
-            <Link to="/therapeutic-riding">Therapeutic Riding</Link>
-            <Link to="/equestrian-rec-activities">Equestrian Activites</Link>
-            <Link to="/volunteers">Volunteers</Link>
-            <Link to="/our-horses">Our Horses</Link>
-            <Link to="/partnership">Partnership</Link>
-        </Container>
+    return (
+        <Wrapper>
+            <NavContainer>
+                <Link to="/about-us">About Us</Link>
+                <Link to="/therapeutic-riding">Therapeutic Riding</Link>
+                <Link to="/equestrian-rec-activities">Equestrian Activites</Link>
+                <Link to="/volunteers">Volunteers</Link>
+                <Link to="/our-horses">Our Horses</Link>
+                <Link to="/partnership">Partnership</Link>
+            </NavContainer>
+        </Wrapper>
     )
 }
 
-const Container = styled.div`
+const Wrapper = styled.div`
     position: sticky;
     top: 0;
-    margin-top: -20.5%;
-    margin-bottom: 18%;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+`;
+
+const NavContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: fit-content;
+    width: 100%;
     height: 50px;
     font-size: 18px;
     background: #482109;
     padding-left: 5%;
     padding-right: 5%;
-    overflow: hidden;
-`
+`;
 
 const Link = styled(NavLink)`
     font-family: var(--font-main);
@@ -38,4 +45,5 @@ const Link = styled(NavLink)`
     font-size: 18px;
     font-weight: bold;
 `;
+
 export default NavBar;

@@ -15,42 +15,43 @@ import NavBar from "./Components/NavBar";
 const App = () => {
   
   return (
-    <BrowserRouter>
-      <GlobalStyles />
-      <Header />
-        <Switch>
+    <div style={{ height: "100%"}}>
+      <BrowserRouter>
+        <GlobalStyles />
+        <Header />
+          <Switch>
 
-          <Route exact path="/">
-            <NavBar />
-            <HomePage />
-          </Route>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            
+            <Route exact path="/about-us">
+              <AboutUs />
+            </Route>
+            
+            <Route exact path="/therapeutic-riding">
+              <TherapeuticRiding />
+            </Route>
+            
+            <Route exact path="/equestrian-rec-activities">
+              <EquestrianActivites />
+            </Route>
+            
+            <Route exact path="/volunteers">
+              <Volunteers />
+            </Route>
           
-          <Route exact path="/about-us">
-            <AboutUs />
-          </Route>
-          
-          <Route exact path="/therapeutic-riding">
-            <TherapeuticRiding />
-          </Route>
-          
-          <Route exact path="/equestrian-rec-activities">
-            <EquestrianActivites />
-          </Route>
-          
-          <Route exact path="/volunteers">
-            <Volunteers />
-          </Route>
-        
-          <Route exact path="/our-horses">
-            <OurHorses />
-          </Route>
+            <Route exact path="/our-horses">
+              <OurHorses />
+            </Route>
 
-          <Route exact path="/partnership">
-            <Partnership />
-          </Route>
+            <Route exact path="/partnership">
+              <Partnership />
+            </Route>
 
-        </Switch>
-    </BrowserRouter>
+          </Switch>
+      </BrowserRouter>
+    </div>
   );
 }
 
