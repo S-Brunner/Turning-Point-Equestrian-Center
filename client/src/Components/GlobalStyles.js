@@ -31,15 +31,29 @@ time, mark, audio, video, select {
     box-sizing: border-box;
     font-size: 100%;
     vertical-align: baseline;
-    
+    color: #F2F4F3;
+    font-family: 'Montserrat', sans-serif;
+}
+p, a{
+    color: #F2F4F3;
+    font-size: 20px;
 }
 h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 40px;
-    letter-spacing: 2px;
+    color: #F2F4F3;
+}
+h2{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    color: #F2F4F3;
 }
 html, body {
     background-color: #F6F3F7;
 }
-
+ul, li{
+    color: #F2F4F3;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+}
 `;
