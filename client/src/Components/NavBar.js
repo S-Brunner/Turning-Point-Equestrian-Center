@@ -33,7 +33,7 @@ const NavContainer = styled.div`
     width: 100%;
     height: 50px;
     font-size: 18px;
-    background: #482109;
+    background: #A9927D;
     padding-left: 5%;
     padding-right: 5%;
 `;

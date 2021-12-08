@@ -6,13 +6,13 @@ const AboutUs = () => {
     return (
         <>
             <ImgContainer>
-                <Image src="/images/aboutusbg.png" />
+                <Image src="/images/aboutusbg.png" alt="Parkside background"/>
             </ImgContainer>
             <PageName>About Us Page</PageName>
             <NavBar />
             <Body>
                 <IframeContainer>
-                    <Iframe src="https://www.youtube.com/embed/gKPJmKanFZE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></Iframe>
+                    <Iframe src="https://www.youtube.com/embed/gKPJmKanFZE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></Iframe>
                 </IframeContainer>
                 <Statement>
                     <h2>Statement of Faith</h2>
@@ -28,11 +28,11 @@ const AboutUs = () => {
                     <P style={{marginTop: "20px"}}>
                         With a vision of sharing God`s love with people, Fred and Jean Warnholtz signed the original property deed for Parkside Ranch in 1964. Parkside Ranch was incorporated in 1969 as a non-profit corporation. Early on campers slept in tents and there were two cabins that housed the kitchen and washrooms. Over the last 50+ years, Parkside`s facilities have expanded and changed however the mission of sharing God`s love with people has remained.
                     </P>
-                    <BookImage src="/images/book.png" />
+                    <BookImage src="/images/book.png" alt="Parkside's book"/>
                     <BookPDF target="_blank" href="https://vite.parksideranch.com/files/images/admin/images/launch_out_into_the_deep.pdf">Read Full Story Here</BookPDF>
                 </Book>
                 <Main>
-                    <img style={{ width: "50%" }} src="/images/aboutuscontent.png" />
+                    <img style={{ width: "50%" }} src="/images/aboutuscontent.png" alt="Parkside winter camp group"/>
                     <PContainer>
                         <P>
                             Parkside Ranch is a place of family and friends. It is our goal for you to grow in all areas of you life; physically, emotionally and spiritually. Physically, we offer development through sport activities (summer and winter), horseback riding and hiking. Emotionally, we offer a safe and loving environment with time to build relationships with a strong emphasis on family. Spiritually, we use the Bible as our guide and seek to show the practical love of God through our actions.

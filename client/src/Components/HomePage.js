@@ -6,7 +6,7 @@ const HomePage = () => {
     return (
         <>
             <ImgContainer>
-                <Image src="/images/background.jfif" />
+                <Image src="/images/background.jfif" alt="homepage background"/>
             </ImgContainer>
             <PageName>Home Page</PageName>
             <NavBar />
@@ -15,7 +15,7 @@ const HomePage = () => {
                     <H2>News and Events</H2>
                 </HEADER>
                 <Main>
-                    <img src="/images/news.png" />
+                    <img src="/images/news.png" alt="interiror of the arena"/>
                     <P>It’s been a busy few weeks at the horse arena. Ceiling and lights are up and it’s looking amazing. Next week the heating units go in! We are ready for this building to be a blessing to our community.</P>
                 </Main>
             </Body>
@@ -46,7 +46,7 @@ const Image = styled.img`
 `;
 
 const Body = styled.div`
-    background: rgba(20,49,9,1);;
+    background: linear-gradient(252deg, rgba(8,91,27,1) 22%, rgba(34,18,1,1) 57%);
     z-index: -1;
 `;
 
@@ -55,10 +55,6 @@ const HEADER = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`;
-
-const H1 = styled.h1`
-    margin-top: 20px;
 `;
 
 const Main = styled.div`

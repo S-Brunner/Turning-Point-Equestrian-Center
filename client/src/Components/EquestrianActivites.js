@@ -1,5 +1,4 @@
 import React from "react";
-import { GiTrail } from "react-icons/gi";
 import styled from "styled-components";
 
 import NavBar from "./NavBar";
