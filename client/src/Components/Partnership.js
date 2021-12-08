@@ -7,7 +7,7 @@ const Partnership = () => {
     return (
     <>
             <ImgContainer>
-                <Image src="/images/horses.png" />
+                <Image src="/images/partnership.png" />
             </ImgContainer>
             <PageName>Partnership Page</PageName>
             <NavBar />
@@ -30,11 +30,12 @@ const ImgContainer = styled.div`
     max-height: 90vh;
     overflow: hidden;
     margin-top: -23%;
+    margin-bottom: -1px;
 `;
 
 const Image = styled.img`
     width: 100%;
-    margin-top: -50%;
+    margin-top: 3%;
 `;
 
 const PageName = styled.h2`

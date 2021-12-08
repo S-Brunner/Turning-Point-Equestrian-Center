@@ -75,17 +75,6 @@ const Body = styled.div`
     z-index: -1;
 `;
 
-const HEADER = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const H1 = styled.h1`
-    margin-top: 20px;
-`;
-
 const Benefits = styled.div`
     display: flex;
     flex-direction: column;

@@ -10,7 +10,6 @@ import Volunteers from "./Components/Volunteers";
 import OurHorses from "./Components/OurHorses";
 import Partnership from "./Components/Partnership";
 import Header from "./Components/Header";
-import NavBar from "./Components/NavBar";
 
 const App = () => {
   
@@ -18,34 +17,40 @@ const App = () => {
     <div style={{ height: "100%"}}>
       <BrowserRouter>
         <GlobalStyles />
-        <Header />
           <Switch>
 
             <Route exact path="/">
+              <Header />
               <HomePage />
             </Route>
             
             <Route exact path="/about-us">
+              <Header />
               <AboutUs />
             </Route>
             
             <Route exact path="/therapeutic-riding">
+              <Header />
               <TherapeuticRiding />
             </Route>
             
             <Route exact path="/equestrian-rec-activities">
+              <Header />
               <EquestrianActivites />
             </Route>
             
             <Route exact path="/volunteers">
+              <Header />
               <Volunteers />
             </Route>
           
             <Route exact path="/our-horses">
+              <Header />
               <OurHorses />
             </Route>
 
             <Route exact path="/partnership">
+              <Header />
               <Partnership />
             </Route>
 
