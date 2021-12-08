@@ -1,26 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { IoLogoFacebook } from "react-icons/io"
 import { BsInstagram } from "react-icons/bs"
 import { GiHorseshoe } from "react-icons/gi"
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const Header = () => {
+
+    const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+
+    isAuthenticated && window.localStorage.setItem("_id", user.email);
+
+        useEffect(() => {
+            if(isAuthenticated){
+                fetch("/create-user", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ _id: user.email, name: user.name, role: "client"})
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            }
+        },[user])
+
     return(
-        <>
-            <Head>
-                <BlackOut />
-                <LinkContainer>
-                    <H1 to="/">Turning Point Equestrian Center</H1>
-                    <LinkWrapper>
-                        <A target="_blank" href="https://www.facebook.com/ParksideRanch"><IoLogoFacebook /></A>
-                        <A className="insta" target="_blank" href="https://www.instagram.com/parksideranch/"><BsInstagram /></A>
-                        <A className="main" target="_blank" href="https://parksideranch.com/"><GiHorseshoe /></A>
-                    </LinkWrapper>
-                </LinkContainer>
-                <ImgContainer to="/"><Img src="/images/logo.png"/></ImgContainer>
-            </Head>
-        </>
+        <Head>
+            <BlackOut />
+            <LinkWrapper>
+                <A target="_blank" href="https://www.facebook.com/ParksideRanch"><IoLogoFacebook /></A>
+                <A className="insta" target="_blank" href="https://www.instagram.com/parksideranch/"><BsInstagram /></A>
+                <A className="main" target="_blank" href="https://parksideranch.com/"><GiHorseshoe /></A>
+            </LinkWrapper>
+            <LinkContainer>
+                <H1 to="/">Turning Point Equestrian Center</H1>
+                <UserLogIn>
+                {isAuthenticated ? 
+                <>
+                <p>Hello, {user.name}!</p>
+                <Signin onClick={() => logout()}>LogOut</Signin> 
+                </>
+                : <Signin onClick={() => loginWithRedirect()}>SignIn</Signin>}
+                </UserLogIn>
+            </LinkContainer>
+            <ImgContainer to="/"><Img src="/images/logo.png"/></ImgContainer>
+        </Head>
     )
 }
 
@@ -40,14 +72,18 @@ const Head = styled.div`
 `;
 
 const LinkWrapper = styled.div`
+    position: absolute;
+    top: 40%;
+    left: 43.5%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: fit-content;
     width: 12vw;
 `;
 
 const A = styled.a`
+margin-left: 20px;
     font-size: 60px;
     color: rgb(61, 108, 209);
 
@@ -67,6 +103,32 @@ const A = styled.a`
         font-size: 54px;
         color: #A9927D;
     }
+`;
+
+const UserLogIn = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin-left: -28%;
+    margin-top: -20px;
+`;
+
+const Signin = styled.button`
+    border: none;
+    cursor: pointer;
+    color: #000;
+    font-family: var(--font-main);
+    font-size: 20px;
+    margin-left: 20px;
+    background: #A9927D;
+    border-radius: 20px;
+    height: 40px;
+    width: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
 `;
 
 const LinkContainer = styled.div`
