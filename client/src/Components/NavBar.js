@@ -1,8 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavBar = () => {
+
+    const { isAuthenticated } = useAuth0();
+
     return (
         <Wrapper>
             <NavContainer>
@@ -12,6 +16,7 @@ const NavBar = () => {
                 <Link to="/volunteers">Volunteers</Link>
                 <Link to="/our-horses">Our Horses</Link>
                 <Link to="/partnership">Partnership</Link>
+                { isAuthenticated && <Link to="/book-appointment">Book Appointment</Link>}
             </NavContainer>
         </Wrapper>
     )
@@ -32,6 +37,7 @@ const NavContainer = styled.div`
     width: fit-content;
     width: 100%;
     height: 50px;
+    margin-top: -15px;
     font-size: 18px;
     background: #A9927D;
     padding-left: 5%;

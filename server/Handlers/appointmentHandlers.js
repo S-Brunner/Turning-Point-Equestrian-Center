@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const { json } = require("express");
 const { MongoClient } = require("mongodb");
 const { MONGO_URI } = process.env;
 
@@ -67,6 +68,14 @@ const addNewAppointment = async (req, res) => {
         
         const newAppointment = { ...req.body, status: "pending" }
 
+        const  _id  = req.body._id
+
+        const foundAppointment = await db.collection("appointments").findOne({ _id });
+
+        if(foundAppointment){
+            return res.status(400).json({ status: 400, message: "User already appointment"})
+        }
+
         const result = await db.collection("appointments").insertOne(newAppointment)
 
         if (!result) {
@@ -78,7 +87,7 @@ const addNewAppointment = async (req, res) => {
         client.close();
     } catch (error) {
         console.log(error);
-        res.status(400).json({ status: 400, message: "Somthing went wrong posting an appointment"})
+        res.status(400).json({ status: 400, message: "Somthing went wrong posting an appointment"}, error)
     }
 }
 
@@ -107,9 +116,60 @@ const updateAppointment = async (req, res) => {
     }
 }
 
+const deleteAppointment = async (req, res) => {
+    const client  = new MongoClient(MONGO_URI, options)
+
+    try {
+        await client.connect();
+
+        const db = client.db("turningPoint");
+
+        const { _id } = req.params
+
+        const result = await db.collection("appointments").deleteOne({ _id });
+
+        if (result.deletedCount === 0) {
+            return res.status(400).json({ status: 400, message: "Couldn't delete appointment"});  
+        }
+
+        res.status(200).json({ status: 200, message: "Appointment deleted", data: result});
+
+        client.close();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ status: 400, message: "Somthing went wrong deleting appointment"})
+    }
+}
+
+const getAppointmentByDate = async (req, res) => {
+    const client  = new MongoClient(MONGO_URI, options);
+
+    try {
+        await client.connect();
+
+        const db = client.db("turningPoint")
+
+        const { date } = req.params
+
+        const result = await db.collection("appointments").find({ date }).toArray();
+
+        if (!result) {
+            return res.status(400).json({ status: 400, message: "Couldn't find appointment"});  
+        }
+
+        res.status(200).json({ status: 200, message: "Appointment Found", data: result});
+        client.close();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ status: 400, message: "Somthing went wrong deleting appointment"})
+    }
+}
+
 module.exports = {
     addNewAppointment,
     updateAppointment,
     getAppointments,
-    getAppointment
+    getAppointment,
+    deleteAppointment,
+    getAppointmentByDate
 }

@@ -5,6 +5,7 @@ import { IoLogoFacebook } from "react-icons/io"
 import { BsInstagram } from "react-icons/bs"
 import { GiHorseshoe } from "react-icons/gi"
 import { useAuth0 } from "@auth0/auth0-react";
+import { FaUser } from "react-icons/fa";
 
 
 const Header = () => {
@@ -45,8 +46,9 @@ const Header = () => {
                 <UserLogIn>
                 {isAuthenticated ? 
                 <>
-                <p>Hello, {user.name}!</p>
-                <Signin onClick={() => logout()}>LogOut</Signin> 
+                    <p>Hello, {user.name}!</p>
+                    <UserLogo to={`/profile/${user.email}`}><FaUser /></UserLogo>
+                    <Signin onClick={() => logout()}>LogOut</Signin>
                 </>
                 : <Signin onClick={() => loginWithRedirect()}>SignIn</Signin>}
                 </UserLogIn>
@@ -59,7 +61,7 @@ const Header = () => {
 const BlackOut = styled.div`
         background: rgba(0, 0, 0, 0.49);
         width: 100%;
-        height: 130vh;
+        height: 125vh;
         position: absolute;
 `;
 const Head = styled.div`
@@ -103,6 +105,13 @@ margin-left: 20px;
         font-size: 54px;
         color: #A9927D;
     }
+`;
+
+const UserLogo = styled(NavLink)`
+    color: rgb(56, 155, 255);
+    font-size: 30px;
+    margin-left: 20px;
+    cursor: pointer;
 `;
 
 const UserLogIn = styled.div`
