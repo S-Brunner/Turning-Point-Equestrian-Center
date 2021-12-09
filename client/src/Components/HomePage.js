@@ -6,7 +6,7 @@ const HomePage = () => {
     return (
         <>
             <ImgContainer>
-                <Image src="/images/background.jfif" alt="homepage background"/>
+                <Image src="/images/background.png" alt="homepage background"/>
             </ImgContainer>
             <PageName>Home Page</PageName>
             <NavBar />
@@ -24,10 +24,9 @@ const HomePage = () => {
 }
 
 const ImgContainer = styled.div`
-    width: 100%;
-    max-height: 89vh;
-    overflow: hidden;
-    margin-top: -23%;
+        width: 100%;
+        max-height: 90vh;
+        margin-top: -7.5%;
 `;
 
 const PageName = styled.h2`

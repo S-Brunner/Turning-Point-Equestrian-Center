@@ -50,7 +50,7 @@ const PageName = styled.h2`
 
 
 const Body = styled.div`
-    background: rgba(20,49,9,1);;
+    background: rgba(20,49,9,1);
     z-index: -1;
 `;
 

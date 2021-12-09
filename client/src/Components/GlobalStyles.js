@@ -29,9 +29,7 @@ time, mark, audio, video, select {
     padding: 0;
     border: 0;
     box-sizing: border-box;
-    font-size: 100%;
     vertical-align: baseline;
-    color: #F2F4F3;
     font-family: 'Montserrat', sans-serif;
 }
 p, a{
