@@ -1,24 +1,54 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "../UserContext";
+import Dropdown from 'react-bootstrap/Dropdown'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NavBar = () => {
 
     const { isAuthenticated } = useAuth0();
+    const { role } = useContext(UserContext);
 
     return (
-        <Wrapper>
-            <NavContainer>
-                <Link to="/about-us">About Us</Link>
-                <Link to="/therapeutic-riding">Therapeutic Riding</Link>
-                <Link to="/equestrian-rec-activities">Equestrian Activites</Link>
-                <Link to="/volunteers">Volunteers</Link>
-                <Link to="/our-horses">Our Horses</Link>
-                <Link to="/partnership">Partnership</Link>
-                { isAuthenticated && <Link to="/book-appointment">Book Appointment</Link>}
-            </NavContainer>
-        </Wrapper>
+        <>
+            { role === "Management" && isAuthenticated ?
+                <Wrapper>
+                    <NavContainer style={{ justifyContent: "center" }}>
+                        <Dropdown>
+                            <Dropdown.Toggle id="dropdown-button-dark-example1" variant="secondary" style={{ marginRight: "40px"}}>
+                                All Tabs
+                            </Dropdown.Toggle>
+                                <Dropdown.Menu variant="dark">
+                                    <Dropdown.Item><Link  to="/about-us">About</Link></Dropdown.Item>
+                                    <Dropdown.Item><Link to="/therapeutic-riding">Riding</Link></Dropdown.Item>
+                                    <Dropdown.Item><Link to="/equestrian-rec-activities">Activites</Link> </Dropdown.Item>
+                                    <Dropdown.Item><Link to="/volunteers">Volunteer</Link></Dropdown.Item>
+                                    <Dropdown.Item><Link to="/our-horses">Horses</Link></Dropdown.Item>
+                                    <Dropdown.Item><Link to="/partnership">Partnership</Link></Dropdown.Item>
+                                    <Dropdown.Item><Link to="/book-appointment">Book Appointment</Link></Dropdown.Item>
+                                </Dropdown.Menu>
+                        </Dropdown>
+                        <Link to="/list/clients" style={{ marginRight: "40px"}}>Clients</Link>
+                        <Link to="/list/appointments">Appointments</Link>
+                    </NavContainer>
+                </Wrapper>
+                :
+                <Wrapper>
+                    <NavContainer>
+                        <Link to="/about-us">About</Link>
+                        <Link to="/therapeutic-riding">Riding</Link>
+                        <Link to="/equestrian-rec-activities">Activites</Link>
+                        <Link to="/volunteers">Volunteer</Link>
+                        <Link to="/our-horses">Horses</Link>
+                        <Link to="/partnership">Partnership</Link>
+                        { isAuthenticated && <Link to="/book-appointment">Book Appointment</Link>}
+                        { role === "Management" && <Link to="/list/clients">See Clients</Link>}
+                    </NavContainer>
+                </Wrapper>
+            }
+        </>
     )
 }
 
@@ -39,7 +69,7 @@ const NavContainer = styled.div`
     height: 50px;
     margin-top: -15px;
     font-size: 18px;
-    background: #A9927D;
+    background: rgb(93, 34, 13);
     padding-left: 5%;
     padding-right: 5%;
 `;

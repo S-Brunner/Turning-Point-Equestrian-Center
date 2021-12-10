@@ -18,10 +18,16 @@ const addNewUser = async (req, res) => {
 
         const _id = req.body._id
 
-        const userFound = await db.collection("users").findOne({ _id });
+        const foundClient = await db.collection("users").findOne({ _id });
 
-        if(userFound){
-            return res.status(400).json({ status: 400, message: "User Already exists", userFound});
+        if(foundClient){
+            return res.status(400).json({ status: 400, message: `Welcome back ${req.body.name}`, role: "Client" });
+        }
+
+        const foundManagement = await db.collection("management").findOne({ _id });
+
+        if(foundManagement){
+            return res.status(400).json({ status: 400, message: `Welcome back ${req.body.name}`, role: "Management" });
         }
 
         const result = await db.collection("users").insertOne(req.body)
@@ -83,11 +89,34 @@ const deleteUser = async (req, res) => {
         console.log(error);
         res.status(400).json({ status: 400, message: "Someothing went wrong getting the user :/"});
     }
+}
 
+const getAllUsers = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options)
+
+    try {
+        await client.connect();
+
+        const db = client.db("turningPoint");
+
+        const result = await db.collection("users").find({}).toArray();
+
+        if(!result){
+            return res.status(400).json({ status: 400, message: "All users not found"}); 
+        }
+
+        res.status(200).json({ status: 200, message: "All users found", data: result})
+        
+        client.close();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ status: 400, message: "Someothing went wrong getting all users :/"});
+    }
 }
 
 module.exports = {
     addNewUser,
     getUser,
-    deleteUser
+    deleteUser,
+    getAllUsers
 }

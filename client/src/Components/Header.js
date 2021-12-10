@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { IoLogoFacebook } from "react-icons/io"
@@ -6,11 +6,13 @@ import { BsInstagram } from "react-icons/bs"
 import { GiHorseshoe } from "react-icons/gi"
 import { useAuth0 } from "@auth0/auth0-react";
 import { FaUser } from "react-icons/fa";
+import { UserContext } from "../UserContext";
 
 
 const Header = () => {
 
     const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+    const { role, setRole } = useContext(UserContext)
 
     isAuthenticated && window.localStorage.setItem("_id", user.email);
 
@@ -25,13 +27,15 @@ const Header = () => {
                 })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data);
+                    setRole(data.role)
                 })
                 .catch((err) => {
                     console.log(err);
                 })
             }
         },[user])
+
+        console.log(role);
 
     return(
         <Head>
@@ -45,11 +49,11 @@ const Header = () => {
                 <H1 to="/">Turning Point Equestrian Center</H1>
                 <UserLogIn>
                 {isAuthenticated ? 
-                <>
-                    <p>Hello, {user.name}!</p>
+                <Container>
+                    <p style={{ paddingTop: "20px"}}>Hello, {user.name}!</p>
                     <UserLogo to={`/profile/${user.email}`}><FaUser /></UserLogo>
                     <Signin onClick={() => logout()}>LogOut</Signin>
-                </>
+                </Container>
                 : <Signin onClick={() => loginWithRedirect()}>SignIn</Signin>}
                 </UserLogIn>
             </LinkContainer>
@@ -57,6 +61,12 @@ const Header = () => {
         </Head>
     )
 }
+
+const Container = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 const BlackOut = styled.div`
         background: rgba(0, 0, 0, 0.49);
@@ -75,7 +85,7 @@ const Head = styled.div`
 
 const LinkWrapper = styled.div`
     position: absolute;
-    top: 40%;
+    top: 42%;
     left: 43.5%;
     display: flex;
     align-items: center;
@@ -85,18 +95,18 @@ const LinkWrapper = styled.div`
 `;
 
 const A = styled.a`
-margin-left: 20px;
+    margin-left: 20px;
     font-size: 60px;
     color: rgb(61, 108, 209);
+    display: flex;
 
     &.insta {
         font-size: 40px;
-        margin-top: -14px;
-        padding: 5px;
+        margin-top: 7px;
         height: 50px;
         width: 50px;
-        padding-left: 6px;
-        padding-bottom: 0px;
+        padding-left: 5.75px;
+        padding-top: 5px;
         border-radius: 20px;
         background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
         color: white;
