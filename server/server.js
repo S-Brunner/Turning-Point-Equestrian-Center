@@ -3,7 +3,7 @@ const express = require('express');
 
 require('dotenv').config();
 
-const { addNewUser, getUser, deleteUser } = require("./Handlers/userHandlers");
+const { addNewUser, getUser, deleteUser, getAllUsers } = require("./Handlers/userHandlers");
 const { addNewAppointment, updateAppointment, getAppointments, getAppointment, deleteAppointment, getAppointmentByDate } = require('./Handlers/appointmentHandlers');
 
 const PORT = 8000;
@@ -13,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoints for Users ///////////////////
+app.get("/users", getAllUsers)
 app.get("/user/:_id", getUser)
 app.post("/create-user", addNewUser)
 app.delete("/user/:_id", deleteUser)

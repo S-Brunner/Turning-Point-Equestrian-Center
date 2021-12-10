@@ -29,7 +29,7 @@ const ImgContainer = styled.div`
     width: 100%;
     max-height: 90vh;
     overflow: hidden;
-    margin-top: -23%;
+    margin-top: -24%;
     margin-bottom: -1px;
 `;
 

@@ -12,6 +12,8 @@ import Partnership from "./Components/Partnership";
 import Header from "./Components/Header";
 import BookAppointment from "./Components/BookAppointment";
 import UserProfile from "./Components/UserProfile";
+import ListClients from "./Components/Management-Links/ListClients";
+import AppointmentList from "./Components/Management-Links/AppointmentList";
 
 const App = () => {
   
@@ -64,6 +66,16 @@ const App = () => {
             <Route exact path="/profile/:_id">
               <Header />
               <UserProfile />
+            </Route>
+
+            <Route exact path="/list/clients">
+              <Header />
+              <ListClients />
+            </Route>
+
+            <Route exact path="/list/appointments">
+              <Header />
+              <AppointmentList />
             </Route>
 
           </Switch>

@@ -26,7 +26,7 @@ const HomePage = () => {
 const ImgContainer = styled.div`
         width: 100%;
         max-height: 90vh;
-        margin-top: -7.5%;
+        margin-top: -9%;
 `;
 
 const PageName = styled.h2`
@@ -45,7 +45,7 @@ const Image = styled.img`
 `;
 
 const Body = styled.div`
-    background: linear-gradient(252deg, rgba(8,91,27,1) 22%, rgba(34,18,1,1) 57%);
+    background: rgb(7, 49, 92);
     z-index: -1;
 `;
 
