@@ -42,7 +42,7 @@ const BookAppointment = () => {
 
     if(selectedTimes){
         selectedTimes?.map((selectedTime) => {
-            bookedTimes.push(selectedTime.time);
+            return bookedTimes.push(selectedTime.time);
         })
     }
         
@@ -115,14 +115,14 @@ const BookAppointment = () => {
                     {times.map((time) => {
                         if(bookedTimes.includes(time) || loading ){
                             return(
-                                <Time className="disabled" value={`${selectedDate} at ${time}`} >
+                                <Time  key={time} className="disabled" value={`${selectedDate} at ${time}`} >
                                     {selectedDate} at {time}
                                     <Input className="disabled" type="radio" name="time" disabled />
                                 </Time>
                             ) 
                         }
                         return (
-                            <Time htmlFor={time} value={`${selectedDate} at ${time}`}>
+                            <Time key={time} htmlFor={time} value={`${selectedDate} at ${time}`}>
                                 {selectedDate} at {time}
                                 <Input value={`${selectedDate} at ${time}`} id={time} type="radio" name="time" required ></Input>
                             </Time>
@@ -207,12 +207,12 @@ const ImgContainer = styled.div`
     max-height: 90vh;
     overflow: hidden;
     margin-top: -25%;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 `;
 
 const Image = styled.img`
     width: 100%;
-    margin-top: 5%;
+    margin-top: 2%;
 `;
 
 const ButtonAndErrMsg = styled.div`

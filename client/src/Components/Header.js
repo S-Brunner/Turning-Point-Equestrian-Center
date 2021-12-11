@@ -12,7 +12,7 @@ import { UserContext } from "../UserContext";
 const Header = () => {
 
     const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
-    const { role, setRole } = useContext(UserContext)
+    const { setRole, setRendering } = useContext(UserContext)
 
     isAuthenticated && window.localStorage.setItem("_id", user.email);
 
@@ -28,14 +28,10 @@ const Header = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     setRole(data.role)
-                })
-                .catch((err) => {
-                    console.log(err);
+                    setRendering(false)
                 })
             }
-        },[user])
-
-        console.log(role);
+        },[user, isAuthenticated, setRendering, setRole])
 
     return(
         <Head>
@@ -69,7 +65,7 @@ const Container = styled.div`
 `;
 
 const BlackOut = styled.div`
-        background: rgba(0, 0, 0, 0.49);
+        background: rgba(0, 0, 0, 0.5);
         width: 100%;
         height: 125vh;
         position: absolute;

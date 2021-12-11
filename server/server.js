@@ -16,7 +16,7 @@ app.use(express.json());
 app.get("/users", getAllUsers)
 app.get("/user/:_id", getUser)
 app.post("/create-user", addNewUser)
-app.delete("/user/:_id", deleteUser)
+app.delete("/user/delete/:_id", deleteUser)
 //////////////////////////////////////////
 
 // Endpoints for Appointments ////////////////////////////

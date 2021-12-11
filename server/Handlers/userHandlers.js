@@ -21,13 +21,13 @@ const addNewUser = async (req, res) => {
         const foundClient = await db.collection("users").findOne({ _id });
 
         if(foundClient){
-            return res.status(400).json({ status: 400, message: `Welcome back ${req.body.name}`, role: "Client" });
+            return res.status(200).json({ status: 200, message: `Welcome back ${req.body.name}`, role: "Client" });
         }
 
         const foundManagement = await db.collection("management").findOne({ _id });
 
         if(foundManagement){
-            return res.status(400).json({ status: 400, message: `Welcome back ${req.body.name}`, role: "Management" });
+            return res.status(200).json({ status: 200, message: `Welcome back ${req.body.name}`, role: "Management" });
         }
 
         const result = await db.collection("users").insertOne(req.body)
@@ -113,6 +113,7 @@ const getAllUsers = async (req, res) => {
         res.status(400).json({ status: 400, message: "Someothing went wrong getting all users :/"});
     }
 }
+
 
 module.exports = {
     addNewUser,
