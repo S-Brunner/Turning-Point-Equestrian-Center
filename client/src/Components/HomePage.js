@@ -3,6 +3,7 @@ import styled from "styled-components";
 import NavBar from "./NavBar";
 
 const HomePage = () => {
+
     return (
         <>
             <ImgContainer>
@@ -24,9 +25,9 @@ const HomePage = () => {
 }
 
 const ImgContainer = styled.div`
-        width: 100%;
-        max-height: 90vh;
-        margin-top: -9%;
+    width: 100%;
+    max-height: 90vh;
+    margin-top: -9%;
 `;
 
 const PageName = styled.h2`
@@ -42,6 +43,7 @@ const PageName = styled.h2`
 const Image = styled.img`
     width: 100%;
     margin-top: -12%;
+    margin-bottom: -14px;
 `;
 
 const Body = styled.div`

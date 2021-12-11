@@ -2,8 +2,6 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
-
 :root {
     --color-dark-grey: #454955;
     --color-light-grey: #F6F3F7;
