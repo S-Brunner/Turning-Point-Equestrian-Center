@@ -12,13 +12,14 @@ const {
 
 const { 
     addNewAppointment,
-    updateAppointment,
+    acceptAppointment,
     getAppointments,
     getAppointment,
     deleteAppointment,
     getAppointmentByDate,
     getAllAccepted,
-    getAllDeclined
+    getAllDeclined,
+    declineAppointment
 } = require('./Handlers/appointmentHandlers');
 
 const PORT = 8000;
@@ -41,7 +42,8 @@ app.get("/appointments/declined", getAllDeclined)
 app.get("/appointment/:name", getAppointment)
 app.get("/appointment-by-date/:date", getAppointmentByDate)
 app.post("/create/new-appointment", addNewAppointment)
-app.patch("/update/appointment/:_id", updateAppointment)
+app.patch("/accept/appointment/:id", acceptAppointment)
+app.patch("/decline/appointment/:id", declineAppointment)
 app.delete("/delete/appointment/:status/:id", deleteAppointment)
 //////////////////////////////////////////////////////////
 app.get("*", (req, res) => {

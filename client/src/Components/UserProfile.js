@@ -61,6 +61,7 @@ const UserProfile = () => {
                                                         <Info><P className="feild">Date: </P><P>{appointment.date}</P></Info>
                                                         <Info><P className="feild">Time: </P><P>{appointment.time}</P></Info>
                                                         <Info><P className="feild">Status: </P><P className={appointment.status}>{appointment.status}</P></Info>
+                                                        {appointment.instructor.length !== 0 && <Info><P className="feild">Instructor:</P><P>{appointment.instructor}</P></Info>}
                                                     </AppointmentContainer>
                                                     { appointment.status !== "Accepted" && <Buttons value={appointment.date + appointment.time} onClick={handleDelete}>Delete</Buttons>}
                                                 </InnerContainer>
@@ -73,7 +74,6 @@ const UserProfile = () => {
                             }
                         </>
                     }
-                    
                 </Body>
             </>
         )
@@ -104,7 +104,7 @@ const PageName = styled.h2`
 const Body = styled.div`
     background: rgb(7, 49, 92);
     z-index: -1;
-    height: 100vh;
+    height: fit-content;
     padding: 50px;
 `;
 
@@ -119,6 +119,7 @@ const AppointmentHeader = styled.h2`
 
 const AppointmentCard = styled.div`
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
 `;
 
@@ -133,12 +134,13 @@ const AppointmentContainer = styled.div`
 const Conatiner = styled.div`
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 `;
 
 const InnerContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 30%;
+    min-width: 35%;
     margin: 25px;
 `;
 
@@ -147,7 +149,7 @@ const Buttons = styled.button`
     width: 130px;
     height: 50px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%)}
+    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%);
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            

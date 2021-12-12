@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactLoading from "react-loading";
 
@@ -179,10 +179,11 @@ const PageName = styled.h2`
 const Body = styled.div`
     background: rgb(7, 49, 92);
     z-index: -1;
-    height: 100vh;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 50px;
 `;
 
 const AppointmentContainer = styled.div`
@@ -228,7 +229,7 @@ const Button = styled.button`
     width: 110px;
     height: 45px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%)}
+    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%);
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
@@ -237,7 +238,7 @@ const Button = styled.button`
     &:hover {
         background-position: right center;
         color: #fff;
-        font-size: 18px;
+        font-size: 18px; 
     }
 `;
 

@@ -7,10 +7,9 @@ import NavBar from "../NavBar";
 
 const ListClients = () => {
 
-    const { role } = useContext(UserContext)
+    const { role } = useContext(UserContext);
 
-    const [ allUsers, setAllUsers ] = useState(false)
-    const [ amountOfUsers, setAmountOfUsers ] = useState(0)
+    const [ allUsers, setAllUsers ] = useState(false);
     const [ updating, setUpdating ] = useState(true);
 
     useEffect(() => {
@@ -18,14 +17,12 @@ const ListClients = () => {
         .then(res => res.json())
         .then(data => {
             setAllUsers(data.data)
-            setAmountOfUsers(data.data.length)
             setUpdating(false)
         })
-    },[amountOfUsers])
+    },[updating])
 
     const handleDelete = (e) => {
         const _id = e.target.value;
-        setUpdating(true)
         
         fetch(`/user/delete/${_id}`, {
             method: "DELETE",
@@ -36,9 +33,8 @@ const ListClients = () => {
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            
         })
-        setAmountOfUsers( amountOfUsers - 1 );
+        setUpdating(true)
     };
 
     return(
@@ -50,20 +46,20 @@ const ListClients = () => {
                     <NavBar />
                     <Body>
                         { updating && <Loading><ReactLoading type="balls" color="white" /></Loading> }
-                        <ClientContainer>
-                            {allUsers && allUsers.map((user) => {
-                                return(
-                                    <InnerContainer key={user._id}>
-                                        <ClientCard>
-                                            <ClientInfo><h2>ID:</h2>{user._id}</ClientInfo>
-                                            <ClientInfo><h2>Name:</h2>{user.name}</ClientInfo>
-                                            <ClientInfo><h2>Role:</h2>{user.role}</ClientInfo>
-                                        </ClientCard>
-                                        <DeleteButton value={user._id} onClick={handleDelete}>Delete</DeleteButton>
-                                    </InnerContainer>
-                                )
-                            })}
-                        </ClientContainer>
+                            <ClientContainer>
+                                {allUsers && allUsers.map((user) => {
+                                    return(
+                                        <InnerContainer key={user._id}>
+                                            <ClientCard>
+                                                <ClientInfo><h2>ID:</h2>{user._id}</ClientInfo>
+                                                <ClientInfo><h2>Name:</h2>{user.name}</ClientInfo>
+                                                <ClientInfo><h2>Role:</h2>{user.role}</ClientInfo>
+                                            </ClientCard>
+                                            <DeleteButton value={user._id} onClick={handleDelete}>Delete</DeleteButton>
+                                        </InnerContainer>
+                                    )
+                                })}
+                            </ClientContainer>
                     </Body>
                 </>
             :
@@ -94,9 +90,10 @@ const PageName = styled.h2`
 const Body = styled.div`
     background: rgb(7, 49, 92);
     z-index: -1;
-    height: 100vh;
+    height: fit-content;
     display: flex;
     flex-direction: column;
+    padding: 50px;
 `;
 
 const Loading = styled.div`
@@ -108,7 +105,6 @@ const ClientContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 5%;
 `;
 
 const ClientCard = styled.div`
@@ -141,7 +137,7 @@ const DeleteButton = styled.button`
     width: 110px;
     height: 45px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%)}
+    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%);
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
