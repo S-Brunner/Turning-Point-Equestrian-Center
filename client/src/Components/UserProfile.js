@@ -11,20 +11,22 @@ const UserProfile = () => {
     const [ appointmentDetails, setAppointmentDetails ] = useState(false);
     const [ loading, setLoading ] = useState(true);
 
-    const { _id } = useParams();
+    const { name } = useParams();
 
     useEffect(() => {
-        fetch(`/appointment/${_id}`)
+        fetch(`/appointment/${name}`)
         .then(res => res.json())
         .then(data => {
             setAppointmentDetails(data.data)
             setLoading(false)
         })
-    },[appointmentDetails, _id])
+    },[name, appointmentDetails])
 
-    const handleDelete = () => {
+    const handleDelete = (ev) => {
+        const id = ev.target.value;
+        console.log(id);
         setLoading(true)
-        fetch(`/delete/appointment/${_id}`, {
+        fetch(`/delete/appointment/${id}`, {
             method: "DELETE",
             headers: {
                 'Content-Type' : "application/json",
@@ -32,7 +34,6 @@ const UserProfile = () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             setAppointmentDetails(false)
         })
     } 
@@ -46,19 +47,26 @@ const UserProfile = () => {
                 <NavBar />
                 <Body>
                     {loading ? <Loading><ReactLoading type="balls" color="white" /></Loading>
-
                         :
                         <>
-                            { appointmentDetails ?
+                            { appointmentDetails.length !== 0 ?
                                 <Conatiner>
-                                        <AppointmentHeader>Your Appointment</AppointmentHeader>
-                                        <AppointmentContainer>
-                                                <Info><P className="feild">Name:</P><P>{appointmentDetails.name}</P></Info>
-                                                <Info><P className="feild">Date: </P><P>{appointmentDetails.date}</P></Info>
-                                                <Info><P className="feild">Time: </P><P>{appointmentDetails.time}</P></Info>
-                                                <Info><P className="feild">Status: </P><P>"{appointmentDetails.status}"</P></Info>
-                                        </AppointmentContainer>
-                                        <Buttons onClick={handleDelete}>Delete</Buttons>
+                                        <AppointmentHeader>Your Appointments:</AppointmentHeader>
+                                        <AppointmentCard>
+                                        {appointmentDetails && appointmentDetails.map((appointment) => {
+                                            return(
+                                                <InnerContainer>
+                                                    <AppointmentContainer>
+                                                        <Info><P className="feild">Name:</P><P>{appointment.name}</P></Info>
+                                                        <Info><P className="feild">Date: </P><P>{appointment.date}</P></Info>
+                                                        <Info><P className="feild">Time: </P><P>{appointment.time}</P></Info>
+                                                        <Info><P className="feild">Status: </P><P className={appointment.status}>{appointment.status}</P></Info>
+                                                    </AppointmentContainer>
+                                                    { appointment.status !== "Accepted" && <Buttons value={appointment.date + appointment.time} onClick={handleDelete}>Delete</Buttons>}
+                                                </InnerContainer>
+                                            )
+                                        })}
+                                        </AppointmentCard>
                                 </Conatiner>
 
                                 :<NoAppointment>No appointments. Book one <HereLink to="/book-appointment">here</HereLink></NoAppointment>
@@ -109,10 +117,14 @@ const AppointmentHeader = styled.h2`
     margin: 10px;
 `;
 
+const AppointmentCard = styled.div`
+    display: flex;
+    width: 100%;
+`;
+
 const AppointmentContainer = styled.div`
     color: white;
     font-size: 18px;
-    width: 40%;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     padding: 20px;
@@ -120,9 +132,14 @@ const AppointmentContainer = styled.div`
 
 const Conatiner = styled.div`
     display: flex;
+    flex-wrap: wrap;
+`;
+
+const InnerContainer = styled.div`
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: 30%;
+    margin: 25px;
 `;
 
 const Buttons = styled.button`
@@ -137,6 +154,7 @@ const Buttons = styled.button`
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     display: block;
     margin-top: 10px;
+    margin-bottom: 25px;
 
     &:hover {
         background-position: right center;
@@ -158,6 +176,18 @@ const P = styled.p`
 
     &.feild{
         font-weight: bold;
+    }
+
+    &.Pending{
+        color: rgb(225, 225, 45);
+    }
+
+    &.Accepted{
+        color: rgb(63, 191, 63);
+    }
+
+    &.Declined{
+        color: rgb(220, 40, 40);
     }
 `;
 

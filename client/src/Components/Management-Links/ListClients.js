@@ -43,7 +43,7 @@ const ListClients = () => {
 
     return(
         <>    
-            { role === "Management" ?
+            { role === "Management" || role === "Instructor" ?
                 <>
                     <ImgContainer />
                     <PageName>Client List</PageName>

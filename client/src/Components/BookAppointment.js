@@ -3,19 +3,18 @@ import styled from "styled-components";
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css'
 import { useAuth0 } from "@auth0/auth0-react";
+import { useHistory } from "react-router-dom";
 
 import NavBar from "./NavBar";
 
 const BookAppointment = () => {
     
+    let history = useHistory();
     const { user } = useAuth0();
-    const _id = window.localStorage.getItem("_id");
 
     const [ selectedDate, setSelectedDate ] = useState(false)
     const [ selectedTimes, setSelectedTimes ] = useState(false) 
-    const [ bookingStatus, setBookingStatus ] = useState( "waiting" )
-    const [ loading, setLoading ] = useState(true);
-    
+    const [ loading, setLoading ] = useState(true)
 
     const times = ["10:00 am","11:00 am","12:00 pm","1:00 pm","2:00 pm","3:00 pm","4:00 pm"]
     const bookedTimes= []
@@ -40,9 +39,10 @@ const BookAppointment = () => {
     },[selectedDate])
 
 
+
     if(selectedTimes){
         selectedTimes?.map((selectedTime) => {
-            return bookedTimes.push(selectedTime.time);
+            return bookedTimes.push(selectedTime);
         })
     }
         
@@ -51,7 +51,7 @@ const BookAppointment = () => {
         fetch("/create/new-appointment", {
             method: "POST",
             body: JSON.stringify({
-                _id,
+                id: date + time,
                 name: user.name,
                 date,
                 time
@@ -62,14 +62,8 @@ const BookAppointment = () => {
         })
         .then((res) => res.json())
         .then((data) => {
-            if(data.status === 400){
-                setBookingStatus("Error")
-            } else {
-                console.log("All is good");
-            }
-        })
-        .catch((err) => {
-            console.log("Error : ",err);
+            console.log(data);
+            history.push(`/profile/${user.name}`)
         })
     }
 
@@ -135,7 +129,6 @@ const BookAppointment = () => {
             }
             <ButtonAndErrMsg>
                 <Button type="submit" className="btn-grad">Book</Button>
-                { bookingStatus === "Error" && <ErroMessage>You Have already booked an appointment</ErroMessage>}
             </ButtonAndErrMsg>  
             </Form>
     </>

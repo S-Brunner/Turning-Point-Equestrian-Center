@@ -47,7 +47,7 @@ const Header = () => {
                 {isAuthenticated ? 
                 <Container>
                     <p style={{ paddingTop: "20px"}}>Hello, {user.name}!</p>
-                    <UserLogo to={`/profile/${user.email}`}><FaUser /></UserLogo>
+                    <UserLogo to={`/profile/${user.name}`}><FaUser /></UserLogo>
                     <Signin onClick={() => logout()}>LogOut</Signin>
                 </Container>
                 : <Signin onClick={() => loginWithRedirect()}>SignIn</Signin>}
