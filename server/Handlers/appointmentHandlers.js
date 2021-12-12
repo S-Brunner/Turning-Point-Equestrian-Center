@@ -94,7 +94,7 @@ const addNewAppointment = async (req, res) => {
     }
 }
 
-const updateAppointment = async (req, res) => {
+const acceptAppointment = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options)
 
     try {
@@ -102,14 +102,65 @@ const updateAppointment = async (req, res) => {
 
         const db = client.db("turningPoint");
 
-        const { _id } = req.params
+        const { id } = req.params
 
-        const result = await db.collection("appointments").updateOne({ _id }, { $set: { ...req.body }})
+        const result = await db.collection("appointments").findOne({ _id: "P" });
 
-        if (!result) {
-            return res.status(400).json({ status: 400, message: "Couldn't update appointment"});        
-        }
+        const appointmentFound = [];
         
+        result.appointments.map((appointment) => {
+            if(appointment.id === id){
+                appointmentFound.push(appointment)
+            }
+        })
+
+        const instructor = req.body.instructor;
+
+        const addAppointmentToA = await db.collection("appointments").updateOne({ _id : "A" }, { $push : { appointments : appointmentFound[0]}})
+
+        const changeStatus = await db.collection("appointments").updateOne({ _id : "A", "appointments.id" : appointmentFound[0].id}, { $set : {"appointments.$.status" : "Accepted"}})
+
+        const addInstructor = await db.collection("appointments").updateOne({ _id : "A", "appointments.id" : appointmentFound[0].id}, { $set : { "appointments.$.instructor" : instructor }})
+
+        const deleteAppointmentFromP = await db.collection("appointments").updateOne({ _id : "P"}, { $pull : { appointments: { id: appointmentFound[0].id }}})
+
+        res.status(200).json({ status: 200, message: "Appointment Updated", data: req.body})
+
+        client.close();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ status: 400, message: "Somthing went wrong updating appointment"})
+    }
+}
+
+const declineAppointment = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options)
+
+    try {
+        await client.connect();
+
+        const db = client.db("turningPoint");
+
+        const { id } = req.params
+
+        const result = await db.collection("appointments").findOne({ _id: "P" });
+
+        const appointmentFound = result.appointments.map((appointment) => {
+            if(appointment.id === id){
+                return appointment
+            }
+        })
+
+        const instructor = req.body.instructor;
+
+        const addAppointmentToD = await db.collection("appointments").updateOne({ _id : "D" }, { $push : { appointments : appointmentFound[0]}})
+
+        const changeStatus = await db.collection("appointments").updateOne({ _id : "D", "appointments.id" : appointmentFound[0].id}, { $set : {"appointments.$.status" : "Declined"}})
+
+        const addInstructor = await db.collection("appointments").updateOne({ _id : "D", "appointments.id" : appointmentFound[0].id}, { $set : {"appointments.$.instructor" : instructor }})
+
+        const deleteAppointmentFromP = await db.collection("appointments").updateOne({ _id : "P"}, { $pull : { appointments: { id: appointmentFound[0].id }}})
+
         res.status(200).json({ status: 200, message: "Appointment Updated", data: result})
 
         client.close();
@@ -229,11 +280,12 @@ const getAllDeclined = async (req, res) => {
 
 module.exports = {
     addNewAppointment,
-    updateAppointment,
+    acceptAppointment,
     getAppointments,
     getAppointment,
     deleteAppointment,
     getAppointmentByDate,
     getAllAccepted,
-    getAllDeclined
+    getAllDeclined,
+    declineAppointment
 }

@@ -54,7 +54,8 @@ const BookAppointment = () => {
                 id: date + time,
                 name: user.name,
                 date,
-                time
+                time,
+                instructor: "",
             }),
             headers: {
                 "Content-Type": "application/json",
