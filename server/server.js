@@ -3,8 +3,23 @@ const express = require('express');
 
 require('dotenv').config();
 
-const { addNewUser, getUser, deleteUser, getAllUsers } = require("./Handlers/userHandlers");
-const { addNewAppointment, updateAppointment, getAppointments, getAppointment, deleteAppointment, getAppointmentByDate } = require('./Handlers/appointmentHandlers');
+const { 
+    addNewUser,
+    getUser,
+    deleteUser,
+    getAllUsers
+} = require("./Handlers/userHandlers");
+
+const { 
+    addNewAppointment,
+    updateAppointment,
+    getAppointments,
+    getAppointment,
+    deleteAppointment,
+    getAppointmentByDate,
+    getAllAccepted,
+    getAllDeclined
+} = require('./Handlers/appointmentHandlers');
 
 const PORT = 8000;
 
@@ -21,11 +36,13 @@ app.delete("/user/delete/:_id", deleteUser)
 
 // Endpoints for Appointments ////////////////////////////
 app.get("/appointments", getAppointments)
-app.get("/appointment/:_id", getAppointment)
+app.get("/appointments/accepted", getAllAccepted)
+app.get("/appointments/declined", getAllDeclined)
+app.get("/appointment/:name", getAppointment)
 app.get("/appointment-by-date/:date", getAppointmentByDate)
 app.post("/create/new-appointment", addNewAppointment)
 app.patch("/update/appointment/:_id", updateAppointment)
-app.delete("/delete/appointment/:_id", deleteAppointment)
+app.delete("/delete/appointment/:status/:id", deleteAppointment)
 //////////////////////////////////////////////////////////
 app.get("*", (req, res) => {
     res.status(404).json({ status: 404, message: "Page does not exit" });

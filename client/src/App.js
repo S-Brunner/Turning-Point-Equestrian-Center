@@ -63,7 +63,7 @@ const App = () => {
               <BookAppointment />
             </Route>
 
-            <Route exact path="/profile/:_id">
+            <Route exact path="/profile/:name">
               <Header />
               <UserProfile />
             </Route>

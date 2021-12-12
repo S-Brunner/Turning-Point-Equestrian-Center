@@ -24,6 +24,13 @@ const addNewUser = async (req, res) => {
             return res.status(200).json({ status: 200, message: `Welcome back ${req.body.name}`, role: "Client" });
         }
 
+        const foundInstructor = await db.collection("instructors").findOne({ _id });
+
+        if(foundInstructor){
+            return res.status(200).json({ status: 200, message: `Welcome back ${req.body.name}`, role: "Instructor" });
+        }
+
+
         const foundManagement = await db.collection("management").findOne({ _id });
 
         if(foundManagement){

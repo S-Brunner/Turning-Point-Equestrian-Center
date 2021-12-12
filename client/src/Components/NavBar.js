@@ -21,7 +21,7 @@ const NavBar = () => {
                         <Loading><ReactLoading type="balls" color="white" /></Loading>
                         :
                         <>
-                            { role === "Management" ?
+                            { role === "Management" || role === "Instructor" ?
                                 <Wrapper>
                                 <NavContainer style={{ justifyContent: "center" }}>
                                     <Dropdown>
