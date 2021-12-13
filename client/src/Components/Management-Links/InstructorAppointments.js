@@ -94,7 +94,7 @@ const ManagementAppointments = () => {
             <PageName>Appointment List</PageName>
             <NavBar />
             <Body>
-                { updating && !pending && !accepted && !declined ? <Loading><ReactLoading type="balls" color="white" /></Loading> 
+                { updating || !pending || !accepted || !declined ? <Loading><ReactLoading type="balls" color="white" /></Loading> 
                 :
                 <>
                     <Sections>

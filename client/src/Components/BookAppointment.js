@@ -76,14 +76,16 @@ const BookAppointment = () => {
         setTime(timeSelected)
     }
 
-    const birthdayStyle = `.DayPicker-Day--highlighted {
+    const styleDate = `.DayPicker-Day--highlighted {
         background-color: orange;
-        color: white;
+        color: black;
       }`;
 
     const modifiers = {
         highlighted: new Date(selectedDate)
     }
+
+    const today = new Date().toString().substring(8,10);
 
     return(
         <>
@@ -94,43 +96,46 @@ const BookAppointment = () => {
             <NavBar />
             <Form onSubmit={handleSubmit}>
                 <DatePicker>
-                    <style>{birthdayStyle}</style>
+                    <style>{styleDate}</style>
                     <DayPicker 
                         fromMonth={new Date()}
                         selectedDays={selectedDate}
                         onDayClick={handleDaySelected}
-                        disabledDays={[{daysOfWeek: [0, 6]}, {before: new Date()}]}
+                        disabledDays={{before: new Date()}}
                         modifiers={modifiers}            
                     />
                 </DatePicker>
-            { selectedDate ? 
-                
-                <TimeContainer onChange={handleSelection}>
-                    {loading && <h2>Loading</h2>}
-                    {times.map((time) => {
-                        if(bookedTimes.includes(time) || loading ){
-                            return(
-                                <Time  key={time} className="disabled" value={`${selectedDate} at ${time}`} >
-                                    {selectedDate} at {time}
-                                    <Input className="disabled" type="radio" name="time" disabled />
-                                </Time>
-                            ) 
+                { selectedDate ? 
+                    <>
+                        {selectedDate.substring(8,10) < today ? <h2>Invalid Date</h2>:
+        
+                            <TimeContainer onChange={handleSelection}>
+                            {loading && <h2>Loading</h2>}
+                            {times.map((time) => {
+                                if(bookedTimes.includes(time) || loading ){
+                                    return(
+                                        <Time  key={time} className="disabled" value={`${selectedDate} at ${time}`} >
+                                            {selectedDate} at {time}
+                                            <Input className="disabled" type="radio" name="time" disabled />
+                                        </Time>
+                                    ) 
+                                }
+                                return (
+                                    <Time key={time} htmlFor={time} value={`${selectedDate} at ${time}`}>
+                                        {selectedDate} at {time}
+                                        <Input value={`${selectedDate} at ${time}`} id={time} type="radio" name="time" required ></Input>
+                                    </Time>
+                                    )
+                                })}
+                            </TimeContainer>
                         }
-                        return (
-                            <Time key={time} htmlFor={time} value={`${selectedDate} at ${time}`}>
-                                {selectedDate} at {time}
-                                <Input value={`${selectedDate} at ${time}`} id={time} type="radio" name="time" required ></Input>
-                            </Time>
-                        )
-                    })}
-                </TimeContainer>
-
-                :
-                <H1>No Date Selected</H1>
-            }
-            <ButtonAndErrMsg>
-                <Button type="submit" className="btn-grad">Book</Button>
-            </ButtonAndErrMsg>  
+                    </>
+                    :
+                    <H1>No Date Selected</H1>
+                }
+                <ButtonAndErrMsg>
+                    <Button type="submit" className="btn-grad">Book</Button>
+                </ButtonAndErrMsg>  
             </Form>
     </>
     )
@@ -138,10 +143,15 @@ const BookAppointment = () => {
 
 const Form = styled.form`
     display: flex;
-    justify-content: space-around;
-    background: rgba(20,49,9,1);
+    justify-content: space-between;
     padding-top: 5%;
     padding-bottom: 10%;
+    background: rgb(7, 49, 92);
+    z-index: -1;
+    height: fit-content;
+    padding: 50px;
+    padding-left: 10%;
+    padding-right: 10%;
 `;
 
 const TimeContainer = styled.ul`
@@ -170,7 +180,7 @@ const Time = styled.label`
 
 const DatePicker = styled.div`
     height: fit-content;
-    background: white;
+    background: rgba(0,0,0,0.5);
     border-radius: 10px;
 `;
 
@@ -216,15 +226,6 @@ const ButtonAndErrMsg = styled.div`
     align-items: center;
     justify-content: space-between;
     height: fit-content;
-`;
-
-const ErroMessage = styled.div`
-    margin: 20px;
-    border: 5px solid red;
-    padding: 10px;
-    color: white;
-    font-size: 18px;
-    max-width: 300px;
 `;
 
 const Button = styled.button`

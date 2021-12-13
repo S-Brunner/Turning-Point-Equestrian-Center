@@ -145,9 +145,11 @@ const declineAppointment = async (req, res) => {
 
         const result = await db.collection("appointments").findOne({ _id: "P" });
 
-        const appointmentFound = result.appointments.map((appointment) => {
+        const appointmentFound = [];
+        
+        result.appointments.map((appointment) => {
             if(appointment.id === id){
-                return appointment
+                appointmentFound.push(appointment); 
             }
         })
 
@@ -170,7 +172,7 @@ const declineAppointment = async (req, res) => {
     }
 }
 
-const deleteAppointment = async (req, res) => {
+const deleteAppointmentByStatus = async (req, res) => {
     const client  = new MongoClient(MONGO_URI, options)
 
     try {
@@ -278,14 +280,40 @@ const getAllDeclined = async (req, res) => {
     }
 }
 
+const deleteAppointment = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options)
+
+    try {
+        await client.connect();
+
+        const db = client.db("turningPoint");
+
+        const { id } = req.params
+
+        const result = await db.collection("appointments").updateOne({ _id: "P" }, { $pull: { appointments : { id }}});
+
+        if (!result) {
+            res.status(400).json({ status: 400, message: "Couldnt delete appointment"})
+        }
+
+        res.status(200).json({ status: 200, message: "Appointment deleted", data: result})
+
+        client.close();
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ status: 400, message: "Somthing went wrong deleting appointment"})
+    }
+}
+
 module.exports = {
     addNewAppointment,
     acceptAppointment,
     getAppointments,
     getAppointment,
-    deleteAppointment,
+    deleteAppointmentByStatus,
     getAppointmentByDate,
     getAllAccepted,
     getAllDeclined,
-    declineAppointment
+    declineAppointment,
+    deleteAppointment
 }

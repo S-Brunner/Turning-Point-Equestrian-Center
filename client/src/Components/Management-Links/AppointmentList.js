@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+import styled from "styled-components";
 
 import { UserContext } from "../../UserContext";
 import ManagementAppointments from "./ManagementAppointments";
 import InstructorAppointments from "./InstructorAppointments";
+import NoAccess from "../NoAccess";
 
 const AppointmentList = () => {
 
@@ -17,15 +19,12 @@ const AppointmentList = () => {
                         { role === "Management" ?
                             <ManagementAppointments />
                         :
-                            <div>No access</div>
+                            <NoAccess />
                         }
                     </>            
                 }
             </>
         )
     }
-    
-            
-
 
 export default AppointmentList;
