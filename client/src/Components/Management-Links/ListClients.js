@@ -4,6 +4,7 @@ import ReactLoading from "react-loading";
 
 import { UserContext } from "../../UserContext";
 import NavBar from "../NavBar";
+import NoAccess from "../NoAccess";
 
 const ListClients = () => {
 
@@ -63,7 +64,7 @@ const ListClients = () => {
                     </Body>
                 </>
             :
-                <div>No access</div>
+                <NoAccess />
             }
         </>
     )

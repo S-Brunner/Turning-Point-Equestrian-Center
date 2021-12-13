@@ -20,13 +20,12 @@ const UserProfile = () => {
             setAppointmentDetails(data.data)
             setLoading(false)
         })
-    },[name, appointmentDetails])
+    },[loading])
 
     const handleDelete = (ev) => {
         const id = ev.target.value;
-        console.log(id);
-        setLoading(true)
-        fetch(`/delete/appointment/${id}`, {
+
+        fetch(`/appointment/delete/${id}`, {
             method: "DELETE",
             headers: {
                 'Content-Type' : "application/json",
@@ -34,8 +33,10 @@ const UserProfile = () => {
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data);
             setAppointmentDetails(false)
         })
+        setLoading(true)
     } 
 
     return (

@@ -45,7 +45,8 @@ const PageName = styled.h2`
 
 
 const Body = styled.div`
-    background: rgba(20,49,9,1);;
+    background: rgb(7, 49, 92);
+    height: fit-content;
     z-index: -1;
 `;
 
@@ -61,6 +62,7 @@ const HorsesPlaceHolder = styled.div`
     width: 80%;
     height: 40vh;
     border: 2px solid #A9927D;
+    color: white;
 `;
 
 const H2 = styled.h2`

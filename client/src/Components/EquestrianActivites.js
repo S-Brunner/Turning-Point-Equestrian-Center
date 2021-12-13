@@ -17,8 +17,8 @@ const EquestrianActivites = () => {
                     <LessPlaceHolder>Place holder for Lessons</LessPlaceHolder>
                 </Lessons>
                 <TrailRides>
-                    <H2>TrailRides</H2>
-                    <TrailPlaceHolder>Place holder for Lessons</TrailPlaceHolder>
+                    <H2>Trail Rides</H2>
+                    <TrailPlaceHolder>Place holder for Trail Rides</TrailPlaceHolder>
                 </TrailRides>
             </Body>
         </>
@@ -49,7 +49,8 @@ const PageName = styled.h2`
 
 
 const Body = styled.div`
-    background: rgba(20,49,9,1);;
+    background: rgb(7, 49, 92);
+    height: fit-content;
     z-index: -1;
 `;
 
@@ -65,6 +66,7 @@ const LessPlaceHolder = styled.div`
     width: 80%;
     height: 40vh;
     border: 2px solid #A9927D;
+    color: white;
 `;
 
 const TrailRides = styled.div`
@@ -78,6 +80,7 @@ const TrailPlaceHolder = styled.div`
     width: 80%;
     height: 40vh;
     border: 2px solid #A9927D;
+    color: white;
 `;
 
 const H2 = styled.h2`
