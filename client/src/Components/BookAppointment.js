@@ -7,45 +7,74 @@ import { useHistory } from "react-router-dom";
 
 import NavBar from "./NavBar";
 
+////////////////////////////////////////
+//     Book Appointment Page          // 
+////////////////////////////////////////
+
 const BookAppointment = () => {
     
     let history = useHistory();
     const { user } = useAuth0();
 
-    const [ selectedDate, setSelectedDate ] = useState(false)
-    const [ selectedTimes, setSelectedTimes ] = useState(false) 
-    const [ loading, setLoading ] = useState(true)
+    // Stores what day the user chooses from the calendar.
+    const [ selectedDate, setSelectedDate ] = useState(false);
 
-    const times = ["10:00 am","11:00 am","12:00 pm","1:00 pm","2:00 pm","3:00 pm","4:00 pm"]
-    const bookedTimes= []
+    // This stores the times that are already taken from either pending or accepted.
+    const [ selectedTimes, setSelectedTimes ] = useState(false);
 
+    // For page re-rendering
+    const [ loading, setLoading ] = useState(true);
+
+    // All the possible times that can be booked
+    const times = ["10:00 am","11:00 am","12:00 pm","1:00 pm","2:00 pm","3:00 pm","4:00 pm"];
+
+    // This will hold the times that are inside of the selectedTimes array.
+    const bookedTimes= [];
+
+    // These 2 are holding the information that ends up being selected by the user to be posted into Mongo
     const [ date, setDate ] = useState(false);
     const [ time, setTime ] = useState(false);
 
+    // Once a day is selected from the calendar this will run
     const handleDaySelected = (day) => {
+
+        // Cuts down the information to what we need.
         let charedDay = day.toString().substring(0, 15);
         setSelectedDate(charedDay);
-        setLoading(true)
-    } 
+        setLoading(true);
 
+    };
+
+    // When the day is changed it re-fetches for all the appointments insdie of pending or accepted
     useEffect(() => {
+
         selectedDate && 
         fetch(`/appointment-by-date/${selectedDate}`)
         .then(res => res.json())
         .then(data => {
-            setSelectedTimes(data.data)
-            setLoading(false)
+            setSelectedTimes(data.data);
+            setLoading(false);
         });
-    },[selectedDate])
 
+    },[selectedDate]);
 
-
+    // This will map through the selected times array and if that time is selected it will be put inside of the bookedTimes array.
     if(selectedTimes){
         selectedTimes?.map((selectedTime) => {
             return bookedTimes.push(selectedTime);
-        })
+        });
+    };
+
+    
+    const handleSelection = (e) => {
+        let dateSelected = e.target.value.substring(0, 15);
+        let timeSelected = e.target.value.substring(19);
+
+        setDate(dateSelected)
+        setTime(timeSelected)
     }
         
+    // Once the user has chosen a date and a time available and submits it posts to Mongo
     const handleSubmit = (ev) => {
         ev.preventDefault();
         fetch("/create/new-appointment", {
@@ -64,17 +93,9 @@ const BookAppointment = () => {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            history.push(`/profile/${user.name}`)
-        })
-    }
-
-    const handleSelection = (e) => {
-        let dateSelected = e.target.value.substring(0, 15);
-        let timeSelected = e.target.value.substring(19);
-
-        setDate(dateSelected)
-        setTime(timeSelected)
-    }
+            history.push(`/profile/${user.name}`);
+        });
+    };
 
     const styleDate = `.DayPicker-Day--highlighted {
         background-color: orange;

@@ -4,41 +4,52 @@ import ReactLoading from "react-loading";
 
 import NavBar from "../NavBar";
 
+////////////////////////////////////////////////////////////
+// IMPORTANT: Managements view at the Appointments Tab    //
+////////////////////////////////////////////////////////////
+
 const ManagementAppointments = () => {
 
-    const [ pending, setPending ] = useState(false)
-    const [ accepted, setAccepted ] = useState(false)
-    const [ declined, setDeclined ] = useState(false)
-    const [ updating, setUpdating ] = useState(true)
+    // These 3 store the appointments depending on their status.
+    const [ pending, setPending ] = useState(false);
+    const [ accepted, setAccepted ] = useState(false);
+    const [ declined, setDeclined ] = useState(false);
 
+     // Used for page re-rendering.
+    const [ updating, setUpdating ] = useState(true);
+
+    // Fetches for the 3 types of statuses and stores them in the right useState
     useEffect(() => {
 
+        // For pending appointments.
         fetch("/appointments")
         .then(res => res.json())
-        .then(data => {
-            setPending(data.data)
-        })
+        .then(data => setPending(data.data));
 
+        // For accepted appointments
         fetch("/appointments/accepted")
         .then(res => res.json())
-        .then(data => {
-            setAccepted(data.data)
-        })
+        .then(data => setAccepted(data.data));
 
+        // For declined appointments
         fetch("/appointments/declined")
         .then(res => res.json())
         .then(data => {
             setDeclined(data.data)
             setUpdating(false)
-        })
+        });
 
-    },[updating])
+    },[updating]);
 
+     // Function to deleting an appointment
     const handleDelete = (e) => {
-        const values = e.target.value
 
-        const status = values.substring(0,1)
-        const id = values.substring(1)
+        // Variable that sotres the id of that appointment
+        const values = e.target.value;
+
+        // Splits values into status and id for the proper fetching
+        const status = values.substring(0,1);
+        const id = values.substring(1);
 
         fetch(`/delete/appointment/${status}/${id}`, {
             method: "DELETE",
@@ -47,12 +58,11 @@ const ManagementAppointments = () => {
             },
         })
         .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
-        setUpdating(true)
-    };
+        .then(data => console.log(data));
 
+        setUpdating(true);
+    
+    };
 
     return (
         <>
@@ -60,84 +70,88 @@ const ManagementAppointments = () => {
             <PageName>Appointment List</PageName>
             <NavBar />
             <Body>
-                { updating || !pending || !accepted || !declined ? <Loading><ReactLoading type="balls" color="white" /></Loading> 
-                :
-                <>
-                    <Sections>
-                        <Section>Pending</Section>
-                        <Section>Accepted</Section>
-                        <Section>Declined</Section>
-                    </Sections>
-                    <AppointmentContainer>
-                        <Status>
-                            { pending.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Pending Appointments</h2> :
-                                <>
-                                    {pending && pending.appointments.map((appointment) => {
-                                        return (
-                                            <>
-                                                <AppContainer>
-                                                    <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
-                                                    <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
-                                                    <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
-                                                    <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
-                                                    <AppCard><h2>Status:</h2><p style={{ color: "rgb(225, 225, 45)" }}>{appointment.status}</p></AppCard>
-                                                </AppContainer>
-                                                <ButtonContainer>
-                                                    <Button value={"P" + appointment.id} onClick={handleDelete}>Delete</Button>
-                                                </ButtonContainer>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            }
-                        </Status>
-                        <Status>
-                            { accepted.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Accepted Appointments</h2> :
-                                <>
-                                    {accepted && accepted.appointments.map((appointment) => {
-                                        return (
-                                            <>
-                                                <AppContainer>
-                                                    <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
-                                                    <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
-                                                    <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
-                                                    <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
-                                                    <AppCard><h2>Status:</h2><p style={{ color: "rgb(63, 191, 63)" }}>{appointment.status}</p></AppCard>
-                                                </AppContainer>
-                                                <ButtonContainer>
-                                                    <Button value={"A" + appointment.id} onClick={handleDelete}>Delete</Button>
-                                                </ButtonContainer>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            }
-                        </Status>
-                        <Status>
-                            { declined.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Declined Appointments</h2> :
-                                <>
-                                    {declined && declined.appointments.map((appointment) => {
-                                        return (
-                                            <>
-                                                <AppContainer>
-                                                    <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
-                                                    <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
-                                                    <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
-                                                    <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
-                                                    <AppCard><h2>Status:</h2><p style={{ color: "rgb(220, 40, 40)" }}>{appointment.status}</p></AppCard>
-                                                </AppContainer>
-                                                <ButtonContainer>
-                                                    <Button value={"D" + appointment.id} onClick={handleDelete}>Delete</Button>
-                                                </ButtonContainer>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            }
-                        </Status>
-                    </AppointmentContainer>
-                
-                </>
+                {/* Makes sure that the there is no data being fetched or no data set yet */}
+                { updating || !pending || !accepted || !declined ? <Loading><ReactLoading type="balls" color="white" /></Loading> :
+                    <>
+                        <Sections>
+                            <Section>Pending</Section>
+                            <Section>Accepted</Section>
+                            <Section>Declined</Section>
+                        </Sections>
+                        <AppointmentContainer>
+                            <Status>
+                                {/* Mapping throught the Pending appointments*/}
+                                { pending.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Pending Appointments</h2> :
+                                    <>
+                                        {pending && pending.appointments.map((appointment) => {
+                                            return (
+                                                <>
+                                                    <AppContainer>
+                                                        <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
+                                                        <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
+                                                        <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
+                                                        <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
+                                                        <AppCard><h2>Status:</h2><p style={{ color: "rgb(225, 225, 45)" }}>{appointment.status}</p></AppCard>
+                                                    </AppContainer>
+                                                    <ButtonContainer>
+                                                        <Button value={"P" + appointment.id} onClick={handleDelete}>Delete</Button>
+                                                    </ButtonContainer>
+                                                </>
+                                            )
+                                        })}
+                                    </>
+                                }
+                            </Status>
+                            <Status>
+                                {/* Mapping throught the Accepted appointments*/}
+                                { accepted.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Accepted Appointments</h2> :
+                                    <>
+                                        {accepted && accepted.appointments.map((appointment) => {
+                                            return (
+                                                <>
+                                                    <AppContainer>
+                                                        <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
+                                                        <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
+                                                        <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
+                                                        <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
+                                                        <AppCard><h2>Status:</h2><p style={{ color: "rgb(63, 191, 63)" }}>{appointment.status}</p></AppCard>
+                                                        <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
+                                                    </AppContainer>
+                                                    <ButtonContainer>
+                                                        <Button value={"A" + appointment.id} onClick={handleDelete}>Delete</Button>
+                                                    </ButtonContainer>
+                                                </>
+                                            )
+                                        })}
+                                    </>
+                                }
+                            </Status>
+                            <Status>
+                                {/* Mapping throught the Declined appointments*/}
+                                { declined.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Declined Appointments</h2> :
+                                    <>
+                                        {declined && declined.appointments.map((appointment) => {
+                                            return (
+                                                <>
+                                                    <AppContainer>
+                                                        <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
+                                                        <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
+                                                        <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
+                                                        <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
+                                                        <AppCard><h2>Status:</h2><p style={{ color: "rgb(220, 40, 40)" }}>{appointment.status}</p></AppCard>
+                                                        <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
+                                                    </AppContainer>
+                                                    <ButtonContainer>
+                                                        <Button value={"D" + appointment.id} onClick={handleDelete}>Delete</Button>
+                                                    </ButtonContainer>
+                                                </>
+                                            )
+                                        })}
+                                    </>
+                                }
+                            </Status>
+                        </AppointmentContainer>
+                    </>
                 }
             </Body>
         </>
@@ -239,7 +253,7 @@ const Button = styled.button`
         background-position: right center;
         color: #fff;
         font-size: 18px; 
-    }
+    };
 `;
 
 export default ManagementAppointments;
