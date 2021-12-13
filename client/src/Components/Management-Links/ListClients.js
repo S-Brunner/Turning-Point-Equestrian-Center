@@ -10,19 +10,27 @@ const ListClients = () => {
 
     const { role } = useContext(UserContext);
 
+    // For storing all users
     const [ allUsers, setAllUsers ] = useState(false);
+
+    // For page re-rendering
     const [ updating, setUpdating ] = useState(true);
 
     useEffect(() => {
+
+        // Fetches for all users and stores it insde of allUsers
         fetch("/users")
         .then(res => res.json())
         .then(data => {
             setAllUsers(data.data)
             setUpdating(false)
-        })
-    },[updating])
+        });
 
+    },[updating]);
+
+    // When management or instructors decided to want to delete a user
     const handleDelete = (e) => {
+
         const _id = e.target.value;
         
         fetch(`/user/delete/${_id}`, {
@@ -32,45 +40,44 @@ const ListClients = () => {
             },
         })
         .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
-        setUpdating(true)
+        .then(data => console.log(data));
+
+        setUpdating(true);
+    
     };
 
     return(
-        <>    
+        <>  {/* Checks to make sure that the user has one of the 2 roles allowed */}
             { role === "Management" || role === "Instructor" ?
                 <>
                     <ImgContainer />
                     <PageName>Client List</PageName>
                     <NavBar />
                     <Body>
-                        { updating && <Loading><ReactLoading type="balls" color="white" /></Loading> }
-                            <ClientContainer>
-                                {allUsers && allUsers.map((user) => {
-                                    return(
-                                        <InnerContainer key={user._id}>
-                                            <ClientCard>
-                                                <ClientInfo><h2>ID:</h2>{user._id}</ClientInfo>
-                                                <ClientInfo><h2>Name:</h2>{user.name}</ClientInfo>
-                                                <ClientInfo><h2>Role:</h2>{user.role}</ClientInfo>
-                                            </ClientCard>
-                                            <DeleteButton value={user._id} onClick={handleDelete}>Delete</DeleteButton>
-                                        </InnerContainer>
-                                    )
-                                })}
-                            </ClientContainer>
+                    { updating && <Loading><ReactLoading type="balls" color="white" /></Loading> }
+                        <ClientContainer>
+                            {allUsers && allUsers.map((user) => {
+                                return(
+                                    <InnerContainer key={user._id}>
+                                        <ClientCard>
+                                            <ClientInfo><h2>ID:</h2>{user._id}</ClientInfo>
+                                            <ClientInfo><h2>Name:</h2>{user.name}</ClientInfo>
+                                            <ClientInfo><h2>Role:</h2>{user.role}</ClientInfo>
+                                        </ClientCard>
+                                        <DeleteButton value={user._id} onClick={handleDelete}>Delete</DeleteButton>
+                                    </InnerContainer>
+                                );
+                            })}
+                        </ClientContainer>
                     </Body>
                 </>
             :
                 <NoAccess />
             }
         </>
-    )
-}
+    );
+};
 
-        
 const ImgContainer = styled.div`
     width: 100%;
     background: rgb(75, 28, 11);
@@ -150,7 +157,7 @@ const DeleteButton = styled.button`
         background-position: right center;
         color: #fff;
         font-size: 18px;
-    }
+    };
 `;
 
 export default ListClients;

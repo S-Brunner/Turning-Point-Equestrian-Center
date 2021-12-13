@@ -3,64 +3,78 @@ import styled from "styled-components";
 import ReactLoading from "react-loading";
 import { useAuth0 } from "@auth0/auth0-react";
 
-
 import NavBar from "../NavBar";
+
+////////////////////////////////////////////////////////////
+// IMPORTANT: Instructors view at the Appointments Tab    //
+////////////////////////////////////////////////////////////
 
 const ManagementAppointments = () => {
 
     const { user } = useAuth0();
 
+    // Variable for the instructor to be passed when they Accept or decline an appointment.
     const instructor = user.name;
 
-    const [ pending, setPending ] = useState(false)
-    const [ accepted, setAccepted ] = useState(false)
-    const [ declined, setDeclined ] = useState(false)
-    const [ updating, setUpdating ] = useState(true)
+    // These 3 store the appointments depending on their status.
+    const [ pending, setPending ] = useState(false);
+    const [ accepted, setAccepted ] = useState(false);
+    const [ declined, setDeclined ] = useState(false);
 
+    // Used for page re-rendering.
+    const [ updating, setUpdating ] = useState(true);
+
+    // Fetches for the 3 types of statuses and stores them in the right useState
     useEffect(() => {
 
+        // For pending appointments.
         fetch("/appointments")
         .then(res => res.json())
-        .then(data => {
-            setPending(data.data)
-        })
+        .then(data => setPending(data.data));
 
+        // For accepted appointments
         fetch("/appointments/accepted")
         .then(res => res.json())
-        .then(data => {
-            setAccepted(data.data)
-        })
+        .then(data => setAccepted(data.data));
 
+        // For declined appointments
         fetch("/appointments/declined")
         .then(res => res.json())
         .then(data => {
             setDeclined(data.data)
             setUpdating(false)
-        })
+        });
 
-    },[updating])
+    },[updating]);
 
+    // Function to deleting an appointment
     const handleDelete = (e) => {
-        const values = e.target.value
+        
+        // Variable that sotres the id of that appointment
+        const values = e.target.value;
 
-        const status = values.substring(0,1)
-        const id = values.substring(1)
+        // Splits values into status and id for the proper fetching
+        const status = values.substring(0,1);
+        const id = values.substring(1);
 
         fetch(`/delete/appointment/${status}/${id}`, {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type" : "application/json",
             },
         })
         .then(res => res.json())
-        .then(data => {
-            console.log(data)
-        })
-        setUpdating(true)
+        .then(data => console.log(data));
+
+        setUpdating(true);
+    
     };
 
+    // Function to handle when the instructor wants to accept an appointment
     const handleAccept = (e) => {
-        const id = e.target.value
+
+        const id = e.target.value;
+
         fetch(`/accept/appointment/${id}`, {
             method : "PATCH",
             body : JSON.stringify({ instructor }),
@@ -69,12 +83,17 @@ const ManagementAppointments = () => {
             }
         })
         .then(res => res.json())
-        .then(data => console.log(data))
-        setUpdating(true)
-    }
+        .then(data => console.log(data));
+        
+        setUpdating(true);
+    
+    };
 
+    // Function to handle when the instructor wants to decline an appointment
     const handleDecline = (e) => {
-        const id = e.target.value
+
+        const id = e.target.value;
+        
         fetch(`/decline/appointment/${id}`, {
             method : "PATCH",
             body : JSON.stringify({ instructor }),
@@ -83,10 +102,11 @@ const ManagementAppointments = () => {
             }
         })
         .then(res => res.json())
-        .then(data => console.log(data))
-        setUpdating(true)
-    }
-
+        .then(data => console.log(data));
+        
+        setUpdating(true);
+    
+    };
 
     return (
         <>
@@ -94,88 +114,88 @@ const ManagementAppointments = () => {
             <PageName>Appointment List</PageName>
             <NavBar />
             <Body>
-                { updating || !pending || !accepted || !declined ? <Loading><ReactLoading type="balls" color="white" /></Loading> 
-                :
-                <>
-                    <Sections>
-                        <Section>Pending</Section>
-                        <Section>Accepted</Section>
-                        <Section>Declined</Section>
-                    </Sections>
-                    <AppointmentContainer>
-                        <Status>
-                            { pending.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Pending Appointments</h2> :
-                                <>
-                                    {pending && pending.appointments.map((appointment) => {
-                                        return (
-                                            <>
-                                                <AppContainer>
-                                                    <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
-                                                    <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
-                                                    <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
-                                                    <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
-                                                    <AppCard><h2>Status:</h2><p style={{ color: "rgb(225, 225, 45)" }}>{appointment.status}</p></AppCard>
-                                                </AppContainer>
-                                                <ButtonContainer>
-                                                    <Button className="Accept" value={appointment.id} onClick={handleAccept}>Accept</Button>
-                                                    <Button value={appointment.id} onClick={handleDecline}>Decline</Button>
-                                                </ButtonContainer>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            }
-                        </Status>
-                        <Status>
-                            { accepted.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Accepted Appointments</h2> :
-                                <>
-                                    {accepted && accepted.appointments.map((appointment) => {
-                                        return (
-                                            <>
-                                                <AppContainer style={{ marginBottom: "20px"}}>
-                                                    <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
-                                                    <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
-                                                    <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
-                                                    <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
-                                                    <AppCard><h2>Status:</h2><p style={{ color: "rgb(63, 191, 63)" }}>{appointment.status}</p></AppCard>
-                                                    <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
-                                                </AppContainer>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            }
-                        </Status>
-                        <Status>
-                            { declined.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Declined Appointments</h2> :
-                                <>
-                                    {declined && declined.appointments.map((appointment) => {
-                                        return (
-                                            <>
-                                                <AppContainer>
-                                                    <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
-                                                    <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
-                                                    <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
-                                                    <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
-                                                    <AppCard><h2>Status:</h2><p style={{ color: "rgb(220, 40, 40)" }}>{appointment.status}</p></AppCard>
-                                                    <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
-                                                </AppContainer>
-                                                <ButtonContainer>
-                                                    <Button value={"D" + appointment.id} onClick={handleDelete}>Delete</Button>
-                                                </ButtonContainer>
-                                            </>
-                                        )
-                                    })}
-                                </>
-                            }
-                        </Status>
-                    </AppointmentContainer>
-                </>
+                {/* Makes sure that the there is no data being fetched or no data set yet */}
+                { updating || !pending || !accepted || !declined ? <Loading><ReactLoading type="balls" color="white" /></Loading> :
+                    <>
+                        <Sections>
+                            <Section>Pending</Section>
+                            <Section>Accepted</Section>
+                            <Section>Declined</Section>
+                        </Sections>
+                        <AppointmentContainer>
+                            <Status> {/* Mapping throught the Pending appointments*/}
+                                { pending.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Pending Appointments</h2> :
+                                    <>
+                                        {pending && pending.appointments.map((appointment) => {
+                                            return (
+                                                <>
+                                                    <AppContainer>
+                                                        <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
+                                                        <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
+                                                        <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
+                                                        <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
+                                                        <AppCard><h2>Status:</h2><p style={{ color: "rgb(225, 225, 45)" }}>{appointment.status}</p></AppCard>
+                                                    </AppContainer>
+                                                    <ButtonContainer>
+                                                        <Button className="Accept" value={appointment.id} onClick={handleAccept}>Accept</Button>
+                                                        <Button value={appointment.id} onClick={handleDecline}>Decline</Button>
+                                                    </ButtonContainer>
+                                                </>
+                                            );
+                                        })}
+                                    </>
+                                }
+                            </Status>
+                            <Status> {/* Mapping throught the Accepted appointments*/}
+                                { accepted.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Accepted Appointments</h2> :
+                                    <>
+                                        {accepted && accepted.appointments.map((appointment) => {
+                                            return (
+                                                <>
+                                                    <AppContainer style={{ marginBottom: "20px"}}>
+                                                        <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
+                                                        <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
+                                                        <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
+                                                        <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
+                                                        <AppCard><h2>Status:</h2><p style={{ color: "rgb(63, 191, 63)" }}>{appointment.status}</p></AppCard>
+                                                        <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
+                                                    </AppContainer>
+                                                </>
+                                            );
+                                        })}
+                                    </>
+                                }
+                            </Status>
+                            <Status> {/* Mapping throught the Declined appointments*/}
+                                { declined.appointments.length === 0 ? <h2 style={{ textAlign: "center"}}>No Declined Appointments</h2> :
+                                    <>
+                                        {declined && declined.appointments.map((appointment) => {
+                                            return (
+                                                <>
+                                                    <AppContainer>
+                                                        <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
+                                                        <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
+                                                        <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
+                                                        <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
+                                                        <AppCard><h2>Status:</h2><p style={{ color: "rgb(220, 40, 40)" }}>{appointment.status}</p></AppCard>
+                                                        <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
+                                                    </AppContainer>
+                                                    <ButtonContainer>
+                                                        <Button value={"D" + appointment.id} onClick={handleDelete}>Delete</Button>
+                                                    </ButtonContainer>
+                                                </>
+                                            );
+                                        })}
+                                    </>
+                                }
+                            </Status>
+                        </AppointmentContainer>
+                    </>
                 }
             </Body>
         </>
-    )
-}
+    );
+};
 
 const Sections = styled.div`
     display: flex;
@@ -216,6 +236,7 @@ const Body = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 50px;
 `;
 
 const AppointmentContainer = styled.div`
@@ -270,11 +291,11 @@ const Button = styled.button`
         background-position: right center;
         color: #fff;
         font-size: 18px; 
-    }
+    };
 
     &.Accept{
-        background-image: linear-gradient(to right, #56ab2f 0%, #a8e063  51%, #56ab2f  100%) 
-    }
+        background-image: linear-gradient(to right, #56ab2f 0%, #a8e063  51%, #56ab2f  100%);
+    };
 `;
 
 export default ManagementAppointments;
