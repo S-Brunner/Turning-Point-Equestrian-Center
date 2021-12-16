@@ -129,14 +129,14 @@ const ManagementAppointments = () => {
                                         {pending && pending.appointments.map((appointment) => {
                                             return (
                                                 <>
-                                                    <AppContainer>
+                                                    <AppContainer key={appointment.id}>
                                                         <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
                                                         <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
                                                         <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
                                                         <AppCard><h2>Time:</h2><p>{appointment.time}</p></AppCard>
                                                         <AppCard><h2>Status:</h2><p style={{ color: "rgb(225, 225, 45)" }}>{appointment.status}</p></AppCard>
                                                     </AppContainer>
-                                                    <ButtonContainer>
+                                                    <ButtonContainer key={appointment.id}>
                                                         <Button className="Accept" value={appointment.id} onClick={handleAccept}>Accept</Button>
                                                         <Button value={appointment.id} onClick={handleDecline}>Decline</Button>
                                                     </ButtonContainer>
@@ -152,7 +152,7 @@ const ManagementAppointments = () => {
                                         {accepted && accepted.appointments.map((appointment) => {
                                             return (
                                                 <>
-                                                    <AppContainer style={{ marginBottom: "20px"}}>
+                                                    <AppContainer key={appointment.id} style={{ marginBottom: "20px"}}>
                                                         <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
                                                         <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
                                                         <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
@@ -172,7 +172,7 @@ const ManagementAppointments = () => {
                                         {declined && declined.appointments.map((appointment) => {
                                             return (
                                                 <>
-                                                    <AppContainer>
+                                                    <AppContainer key={appointment.id}>
                                                         <AppCard><h2>ID:</h2><p>{appointment.id}</p></AppCard>
                                                         <AppCard><h2>Name:</h2><p>{appointment.name}</p></AppCard>
                                                         <AppCard><h2>Date:</h2><p>{appointment.date}</p></AppCard>
@@ -180,7 +180,7 @@ const ManagementAppointments = () => {
                                                         <AppCard><h2>Status:</h2><p style={{ color: "rgb(220, 40, 40)" }}>{appointment.status}</p></AppCard>
                                                         <AppCard><h2>Instructor:</h2><p>{appointment.instructor}</p></AppCard>
                                                     </AppContainer>
-                                                    <ButtonContainer>
+                                                    <ButtonContainer key={appointment.id}>
                                                         <Button value={"D" + appointment.id} onClick={handleDelete}>Delete</Button>
                                                     </ButtonContainer>
                                                 </>
@@ -248,8 +248,12 @@ const AppointmentContainer = styled.div`
 
 const AppContainer = styled.div`
     background: rgba(0, 0, 0, 0.5);
+    width: 110%;
+    padding: 20px;
+    color: white;
+    cursor: pointer;
     border-radius: 10px;
-    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -7px 0px inset;
 `;
 
 const Status = styled.div`
@@ -271,30 +275,40 @@ const Loading = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    margin-top: 5px;
+    width: 110%;
+    margin-top: 15px;
     margin-bottom: 20px;
 `;
 
 const Button = styled.button`
     border: none;
-    width: 110px;
-    height: 45px;
+    width: 125px;
+    height: 55px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%);
+    font-size: 18px;
+    background: rgb(150, 37, 37);
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
+    transition: 400ms ease;
 
     &:hover {
-        background-position: right center;
-        color: #fff;
-        font-size: 18px; 
+        outline: 2px solid white;
+        background: rgb(251, 23, 23);
+        color: white;
+        font-size: 20px; 
     };
 
     &.Accept{
-        background-image: linear-gradient(to right, #56ab2f 0%, #a8e063  51%, #56ab2f  100%);
+        background: rgb(0, 158, 0);
+
+        &:hover {
+        outline: 2px solid white;
+        background: rgb(0, 234, 0);
+        font-size: 20px;
+    };
+
     };
 `;
 
