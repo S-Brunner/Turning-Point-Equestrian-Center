@@ -71,7 +71,8 @@ const PageName = styled.h2`
 `;
 
 const Body = styled.div`
-    background: rgba(20,49,9,1);;
+    background: rgb(7, 49, 92);
+    height: fit-content;
     z-index: -1;
 `;
 
@@ -130,6 +131,7 @@ const ImgPlaceHolder = styled.div`
     width: 40%;
     height: 20vh;
     border: 2px solid #A9927D;
+    color: white;
 `;
 
 const TestemonialsPlaceHolder = styled.div`
@@ -137,5 +139,6 @@ const TestemonialsPlaceHolder = styled.div`
     height: 20vh;
     margin-left: 20px;
     border: 2px solid #A9927D;
+    color: white;
 `;
 export default TherapeuticRiding;

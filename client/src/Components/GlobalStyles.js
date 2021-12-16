@@ -2,8 +2,6 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
-
 :root {
     --color-dark-grey: #454955;
     --color-light-grey: #F6F3F7;
@@ -29,9 +27,7 @@ time, mark, audio, video, select {
     padding: 0;
     border: 0;
     box-sizing: border-box;
-    font-size: 100%;
     vertical-align: baseline;
-    color: #F2F4F3;
     font-family: 'Montserrat', sans-serif;
 }
 p, a{

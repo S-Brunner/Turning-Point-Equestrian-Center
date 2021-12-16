@@ -10,6 +10,10 @@ import Volunteers from "./Components/Volunteers";
 import OurHorses from "./Components/OurHorses";
 import Partnership from "./Components/Partnership";
 import Header from "./Components/Header";
+import BookAppointment from "./Components/BookAppointment";
+import UserProfile from "./Components/UserProfile";
+import ListClients from "./Components/Management-Links/ListClients";
+import AppointmentList from "./Components/Management-Links/AppointmentList";
 
 const App = () => {
   
@@ -52,6 +56,26 @@ const App = () => {
             <Route exact path="/partnership">
               <Header />
               <Partnership />
+            </Route>
+
+            <Route exact path="/book-appointment">
+              <Header />
+              <BookAppointment />
+            </Route>
+
+            <Route exact path="/profile/:name">
+              <Header />
+              <UserProfile />
+            </Route>
+
+            <Route exact path="/list/clients">
+              <Header />
+              <ListClients />
+            </Route>
+
+            <Route exact path="/list/appointments">
+              <Header />
+              <AppointmentList />
             </Route>
 
           </Switch>

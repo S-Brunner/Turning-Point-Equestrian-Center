@@ -3,10 +3,11 @@ import styled from "styled-components";
 import NavBar from "./NavBar";
 
 const HomePage = () => {
+
     return (
         <>
             <ImgContainer>
-                <Image src="/images/background.jfif" alt="homepage background"/>
+                <Image src="/images/background.png" alt="homepage background"/>
             </ImgContainer>
             <PageName>Home Page</PageName>
             <NavBar />
@@ -15,7 +16,7 @@ const HomePage = () => {
                     <H2>News and Events</H2>
                 </HEADER>
                 <Main>
-                    <img src="/images/news.png" alt="interiror of the arena"/>
+                    <Content src="/images/news.png" alt="interiror of the arena"/>
                     <P>It’s been a busy few weeks at the horse arena. Ceiling and lights are up and it’s looking amazing. Next week the heating units go in! We are ready for this building to be a blessing to our community.</P>
                 </Main>
             </Body>
@@ -25,9 +26,8 @@ const HomePage = () => {
 
 const ImgContainer = styled.div`
     width: 100%;
-    max-height: 89vh;
-    overflow: hidden;
-    margin-top: -23%;
+    max-height: 90vh;
+    margin-top: -9%;
 `;
 
 const PageName = styled.h2`
@@ -38,16 +38,37 @@ const PageName = styled.h2`
     justify-content: center;
     width: 100%;
     font-size: 40px;
+
+    @media (max-width : 320px ) {
+        font-size: 20px;
+        top: 35%;
+    }
 `;
 
 const Image = styled.img`
     width: 100%;
     margin-top: -12%;
+    margin-bottom: -14px;
+
+    @media (max-width : 320px ) {
+        margin-top: -45%;
+        margin-bottom: 26px;
+        margin-left: -50%;
+        width: 150%;
+    }
 `;
 
 const Body = styled.div`
-    background: linear-gradient(252deg, rgba(8,91,27,1) 22%, rgba(34,18,1,1) 57%);
+    background: rgb(7, 49, 92);
     z-index: -1;
+    height: fit-content;
+`;
+
+const Content = styled.img`
+
+    @media (max-width : 320px ) {
+        width: 50%;
+    }
 `;
 
 const HEADER = styled.div`
@@ -62,6 +83,11 @@ const Main = styled.div`
     margin-bottom: -10px;
     padding-bottom: 50px;
     justify-content: center;
+
+    @media (max-width : 320px ) {
+        width: 100%;
+        height: fit-content;
+    }
 `;
 
 const P = styled.p`
@@ -69,6 +95,11 @@ const P = styled.p`
     width: 35%;
     font-size: 25px;
     margin-left: 20px;
+
+    @media (max-width : 320px ) {
+        font-size: 12px;
+        top: 35%;
+    }
 `;
 
 const H2 = styled.h2`

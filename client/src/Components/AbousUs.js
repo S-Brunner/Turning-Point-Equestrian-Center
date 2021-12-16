@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import NavBar from "./NavBar";
 
+///////////////////////////////////////////
+//             About Us Page             //
+///////////////////////////////////////////
+
 const AboutUs = () => {
+
     return (
         <>
             <ImgContainer>
@@ -20,7 +25,7 @@ const AboutUs = () => {
                         <li>The Bible is the complete and inspired Word of God and is presented as truth.</li>
                         <li>There is but one true God in all existence who is the Creator of all things.</li>
                         <li>God to be infinitely perfect and eternally existing in three persons: Father, Son, and Holy Spirit.</li>
-                        <li>God’s Eternal Plan is available to all persons regardless of gender or race.</li>
+                        <li>God's Eternal Plan is available to all persons regardless of gender or race.</li>
                     </ul>
                 </Statement>
                 <Book>
@@ -32,29 +37,23 @@ const AboutUs = () => {
                     <BookPDF target="_blank" href="https://vite.parksideranch.com/files/images/admin/images/launch_out_into_the_deep.pdf">Read Full Story Here</BookPDF>
                 </Book>
                 <Main>
-                    <img style={{ width: "50%" }} src="/images/aboutuscontent.png" alt="Parkside winter camp group"/>
+                    <Group src="/images/aboutuscontent.png" alt="Parkside winter camp group"/>
                     <PContainer>
                         <P>
                             Parkside Ranch is a place of family and friends. It is our goal for you to grow in all areas of you life; physically, emotionally and spiritually. Physically, we offer development through sport activities (summer and winter), horseback riding and hiking. Emotionally, we offer a safe and loving environment with time to build relationships with a strong emphasis on family. Spiritually, we use the Bible as our guide and seek to show the practical love of God through our actions.
                         </P>
-                        <P>
-                            As a non-profit Christian organization we are also committed to helping our local community and to bless all who come to the Ranch.
-                        </P>
-                        <P>
-                            Have a Great Day.
-                        </P>
-                        <P>
-                            Greg & Pat MacWilliam
-                        </P>
+                        <P>As a non-profit Christian organization we are also committed to helping our local community and to bless all who come to the Ranch.</P>
+                        <P>Have a Great Day.</P>
+                        <P>Greg & Pat MacWilliam</P>
                     </PContainer>
                 </Main>
             </Body>
         </>
-    )
-}
+    );
+};
 
 const Body = styled.div`
-    background: rgba(20,49,9,1);;
+    background: rgb(7, 49, 92);
     z-index: -1;
 `;
 
@@ -69,7 +68,6 @@ const Image = styled.img`
     width: 100%;
     margin-top: -12%;
 `;
-
 
 const PageName = styled.h2`
     position: absolute;
@@ -111,7 +109,6 @@ const BookImage = styled.img`
 
 const BookPDF = styled.a`
     text-align: center;
-    text-decoration: none;
     width: 90%;
     border-radius: 5px;
     border-bottom: 5px solid #A9927D;
@@ -120,10 +117,12 @@ const BookPDF = styled.a`
 
 const Main = styled.div`
     display: flex;
-    margin-bottom: -10px;
-    margin-top: 20px;
-    padding-bottom: 50px;
-    margin-left: 10%;
+    width: fit-content;
+    padding: 25px;
+`;
+
+const Group = styled.img`
+    width: 50%;
 `;
 
 const PContainer = styled.div`
