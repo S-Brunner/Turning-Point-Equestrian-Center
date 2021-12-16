@@ -20,7 +20,7 @@ const UserProfile = () => {
             setAppointmentDetails(data.data)
             setLoading(false)
         })
-    },[loading])
+    },[loading, name])
 
     const handleDelete = (ev) => {
         const id = ev.target.value;
@@ -56,7 +56,7 @@ const UserProfile = () => {
                                         <AppointmentCard>
                                         {appointmentDetails && appointmentDetails.map((appointment) => {
                                             return(
-                                                <InnerContainer>
+                                                <InnerContainer key={appointment.id}>
                                                     <AppointmentContainer>
                                                         <Info><P className="feild">Name:</P><P>{appointment.name}</P></Info>
                                                         <Info><P className="feild">Date: </P><P>{appointment.date}</P></Info>
@@ -106,7 +106,7 @@ const Body = styled.div`
     background: rgb(7, 49, 92);
     z-index: -1;
     height: fit-content;
-    padding: 50px;
+    padding: 55px;
 `;
 
 const Loading = styled.div`
@@ -125,11 +125,13 @@ const AppointmentCard = styled.div`
 `;
 
 const AppointmentContainer = styled.div`
-    color: white;
-    font-size: 18px;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    width: 100%;
     padding: 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -7px 0px inset;
 `;
 
 const Conatiner = styled.div`
@@ -147,23 +149,24 @@ const InnerContainer = styled.div`
 
 const Buttons = styled.button`
     border: none;
-    width: 130px;
-    height: 50px;
+    width: 125px;
+    height: 55px;
+    margin-top: 15px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%);
+    font-size: 18px;
+    background: rgb(150, 37, 37);
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    display: block;
-    margin-top: 10px;
-    margin-bottom: 25px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
+    transition: 400ms ease;
 
     &:hover {
-        background-position: right center;
-        color: #fff;
-        font-size: 18px;
-    }
+        outline: 2px solid white;
+        background: rgb(251, 23, 23);
+        color: white;
+        font-size: 20px; 
+    };
 `;
 
 const Info = styled.div`

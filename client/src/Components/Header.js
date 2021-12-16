@@ -34,27 +34,32 @@ const Header = () => {
         },[user, isAuthenticated, setRendering, setRole])
 
     return(
-        <Head>
+        <>
             <BlackOut />
-            <LinkWrapper>
-                <A target="_blank" href="https://www.facebook.com/ParksideRanch"><IoLogoFacebook /></A>
-                <A className="insta" target="_blank" href="https://www.instagram.com/parksideranch/"><BsInstagram /></A>
-                <A className="main" target="_blank" href="https://parksideranch.com/"><GiHorseshoe /></A>
-            </LinkWrapper>
-            <LinkContainer>
-                <H1 to="/">Turning Point Equestrian Center</H1>
-                <UserLogIn>
-                {isAuthenticated ? 
-                <Container>
-                    <p style={{ paddingTop: "20px"}}>Hello, {user.name}!</p>
-                    <UserLogo to={`/profile/${user.name}`}><FaUser /></UserLogo>
-                    <Signin onClick={() => logout()}>LogOut</Signin>
-                </Container>
-                : <Signin onClick={() => loginWithRedirect()}>SignIn</Signin>}
-                </UserLogIn>
-            </LinkContainer>
-            <ImgContainer to="/"><Img src="/images/logo.png"/></ImgContainer>
-        </Head>
+            <Head>
+                <LinkContainer>
+                        <H1 to="/">Turning Point Equestrian Center</H1>
+                        <UserLogIn>
+                        {isAuthenticated ? 
+                            <Container>
+                                <Hello style={{ paddingTop: "20px"}}>Hello, {user.name}!</Hello>
+                                <UserLogo to={`/profile/${user.name}`}><FaUser /></UserLogo>
+                                <Signin onClick={() => logout()}>LogOut</Signin>
+                            </Container>
+                        : <Signin onClick={() => loginWithRedirect()}>SignIn</Signin>
+                        }
+                        </UserLogIn>
+                    </LinkContainer>
+                <div>
+                    <ImgContainer to="/"><Img src="/images/logo.png"/></ImgContainer>
+                    <LinkWrapper>
+                        <A target="_blank" href="https://www.facebook.com/ParksideRanch"><IoLogoFacebook /></A>
+                        <A className="insta" target="_blank" href="https://www.instagram.com/parksideranch/"><BsInstagram /></A>
+                        <A className="main" target="_blank" href="https://parksideranch.com/"><GiHorseshoe /></A>
+                    </LinkWrapper>
+                </div>
+            </Head>
+        </>
     )
 }
 
@@ -67,16 +72,23 @@ const Container = styled.div`
 const BlackOut = styled.div`
         background: rgba(0, 0, 0, 0.5);
         width: 100%;
-        height: 125vh;
+        height: 84vh;
+        margin-top: -1.75%;
         position: absolute;
+
+        @media (max-width: 320px) {
+            height: 67%;
+            margin-top: -34%;
+        }
 `;
 const Head = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 20px;
-    margin-top: 30px;
-    padding-bottom: 20px;
+
+    @media (max-width: 320px) {
+        display: flex;
+    }
 `;
 
 const LinkWrapper = styled.div`
@@ -88,6 +100,14 @@ const LinkWrapper = styled.div`
     justify-content: center;
     height: fit-content;
     width: 12vw;
+
+    @media (max-width: 320px) { 
+        display: flex;
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
 `;
 
 const A = styled.a`
@@ -95,6 +115,12 @@ const A = styled.a`
     font-size: 60px;
     color: rgb(61, 108, 209);
     display: flex;
+    
+    @media (max-width: 320px) {
+        font-size: 35px;
+        margin: 10px;
+        margin-left: 50px;
+    }
 
     &.insta {
         font-size: 40px;
@@ -106,10 +132,23 @@ const A = styled.a`
         border-radius: 20px;
         background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
         color: white;
+
+        @media (max-width: 320px) {
+            font-size: 30px;
+            padding: 0px;
+            width: 30px;
+            height: 28px;
+            border-radius: 9px;
+        }
     }
     &.main{
         font-size: 54px;
         color: #A9927D;
+
+        @media (max-width: 320px) {
+            font-size: 35px;
+            margin-right: 40px;
+        }
     }
 `;
 
@@ -118,6 +157,10 @@ const UserLogo = styled(NavLink)`
     font-size: 30px;
     margin-left: 20px;
     cursor: pointer;
+    
+    @media (max-width: 320px) {
+        font-size: 20px;
+    }
 `;
 
 const UserLogIn = styled.div`
@@ -127,6 +170,14 @@ const UserLogIn = styled.div`
     width: fit-content;
     margin-left: -28%;
     margin-top: -20px;
+    
+    @media (max-width: 320px) {
+        padding: 10px;
+        width: 100%;
+        height: fit-content;
+        margin: 0;
+
+    }
 `;
 
 const Signin = styled.button`
@@ -143,16 +194,39 @@ const Signin = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0;
+    
+    @media (max-width: 320px) {
+        font-size: 10px;
+        height: 30px;
+        width: 45px;
+        margin-left: 2%;
+    }
 `;
 
 const LinkContainer = styled.div`
-    display: flex;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
     justify-content: space-between;
-    width: 92vw;
+    margin-top: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+
+    @media (max-width: 320px) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        justify-content: space-between;
+    }
+`;
+
+const Hello = styled.p`
+    
+    @media (max-width: 320px) {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
 `;
 
 const ImgContainer = styled(NavLink)`
@@ -164,6 +238,10 @@ const Img = styled.img`
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    
+    @media (max-width: 320px) {
+        display: none;
+    }
 `;
 
 const H1 = styled(NavLink)`
@@ -173,6 +251,13 @@ const H1 = styled(NavLink)`
     font-family: var(--font-main);
     color: #E9ECEB;
     text-decoration: none;
+
+    @media (max-width: 320px) {
+        font-size: 20px;
+        text-align: center;
+        width: 100%;
+        padding: 4px;
+    }
 `;
 
 export default Header;

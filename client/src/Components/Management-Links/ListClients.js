@@ -119,9 +119,11 @@ const ClientCard = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 20px;
-    border-radius: 10px;
     background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -7px 0px inset;
 `;
 
 const ClientInfo = styled.div`
@@ -142,21 +144,23 @@ const InnerContainer = styled.div`
 
 const DeleteButton = styled.button`
     border: none;
-    width: 110px;
-    height: 45px;
+    margin-top: 10px;
+    width: 125px;
+    height: 55px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a  51%, #cb2d3e  100%);
+    font-size: 18px;
+    background: rgb(150, 37, 37);
     transition: 0.5s;
     background-size: 200% auto;
     color: white;            
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    display: block;
-    margin-top: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -4px 0px inset;
+    transition: 400ms ease;
 
     &:hover {
-        background-position: right center;
-        color: #fff;
-        font-size: 18px;
+        outline: 2px solid white;
+        background: rgb(251, 23, 23);
+        color: white;
+        font-size: 20px; 
     };
 `;
 

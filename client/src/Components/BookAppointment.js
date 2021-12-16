@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useHistory } from "react-router-dom";
 
 import NavBar from "./NavBar";
+import TimeAnimation from "./TimesAnimation";
 
 ////////////////////////////////////////
 //     Book Appointment Page          // 
@@ -15,15 +16,18 @@ const BookAppointment = () => {
     
     let history = useHistory();
     const { user } = useAuth0();
+    
+    const today = new Date().toString().substring(8,10);
+    const fullDate = new Date().toString().substring(0, 15)
 
     // Stores what day the user chooses from the calendar.
-    const [ selectedDate, setSelectedDate ] = useState(false);
+    const [ selectedDate, setSelectedDate ] = useState(fullDate);
 
     // This stores the times that are already taken from either pending or accepted.
     const [ selectedTimes, setSelectedTimes ] = useState(false);
 
     // For page re-rendering
-    const [ loading, setLoading ] = useState(true);
+    const [ loading, setLoading ] = useState(false);
 
     // All the possible times that can be booked
     const times = ["10:00 am","11:00 am","12:00 pm","1:00 pm","2:00 pm","3:00 pm","4:00 pm"];
@@ -32,8 +36,8 @@ const BookAppointment = () => {
     const bookedTimes= [];
 
     // These 2 are holding the information that ends up being selected by the user to be posted into Mongo
-    const [ date, setDate ] = useState(false);
-    const [ time, setTime ] = useState(false);
+    const [ userDate, setUserDate ] = useState(false);
+    const [ userTime, setUserTime ] = useState(false);
 
     // Once a day is selected from the calendar this will run
     const handleDaySelected = (day) => {
@@ -41,14 +45,14 @@ const BookAppointment = () => {
         // Cuts down the information to what we need.
         let charedDay = day.toString().substring(0, 15);
         setSelectedDate(charedDay);
-        setLoading(true);
 
     };
 
     // When the day is changed it re-fetches for all the appointments insdie of pending or accepted
     useEffect(() => {
 
-        selectedDate && 
+        setLoading(true)
+        setUserTime(false)
         fetch(`/appointment-by-date/${selectedDate}`)
         .then(res => res.json())
         .then(data => {
@@ -66,12 +70,13 @@ const BookAppointment = () => {
     };
 
     
-    const handleSelection = (e) => {
-        let dateSelected = e.target.value.substring(0, 15);
-        let timeSelected = e.target.value.substring(19);
+    const handleSelection = (ev) => {
 
-        setDate(dateSelected)
-        setTime(timeSelected)
+        let dateSelected = ev.target.value.substring(0, 15);
+        let timeSelected = ev.target.value.substring(19);
+
+        setUserDate(dateSelected)
+        setUserTime(timeSelected)
     }
         
     // Once the user has chosen a date and a time available and submits it posts to Mongo
@@ -80,10 +85,10 @@ const BookAppointment = () => {
         fetch("/create/new-appointment", {
             method: "POST",
             body: JSON.stringify({
-                id: date + time,
+                id: userDate + userTime,
                 name: user.name,
-                date,
-                time,
+                date: userDate,
+                time: userTime,
                 instructor: "",
             }),
             headers: {
@@ -92,28 +97,37 @@ const BookAppointment = () => {
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
+            console.log(data.message);
             history.push(`/profile/${user.name}`);
         });
     };
 
-    const styleDate = `.DayPicker-Day--highlighted {
-        background-color: orange;
-        color: black;
-      }`;
+    const styleDate = `
+        .DayPicker-Day--highlighted {
+            background-color: orange;
+            color: black;
+        }
+        .DayPicker {
+            font-size: 2em;
+        }
+        .DayPicker-Month {
+            color: white;
+        }
+        .DayPicker-Day--disabled {
+            color: black;
+        }
+      `;
 
     const modifiers = {
         highlighted: new Date(selectedDate)
     }
-
-    const today = new Date().toString().substring(8,10);
 
     return(
         <>
             <ImgContainer>
                 <Image src="/images/booking.png" />
             </ImgContainer>
-            <PageName>Book an Appointment</PageName>
+            <PageName >Book an Appointment</PageName>
             <NavBar />
             <Form onSubmit={handleSubmit}>
                 <DatePicker>
@@ -128,24 +142,30 @@ const BookAppointment = () => {
                 </DatePicker>
                 { selectedDate ? 
                     <>
-                        {selectedDate.substring(8,10) < today ? <h2>Invalid Date</h2>:
+                        {selectedDate.substring(8,10) < today ? <h2 style={{ border: "3px solid red", position: "absolute", left: "55%", borderRadius: "10px", padding: "20px"}}>Invalid Date</h2>:
         
                             <TimeContainer onChange={handleSelection}>
-                            {loading && <h2>Loading</h2>}
-                            {times.map((time) => {
-                                if(bookedTimes.includes(time) || loading ){
-                                    return(
-                                        <Time  key={time} className="disabled" value={`${selectedDate} at ${time}`} >
-                                            {selectedDate} at {time}
-                                            <Input className="disabled" type="radio" name="time" disabled />
-                                        </Time>
-                                    ) 
-                                }
-                                return (
-                                    <Time key={time} htmlFor={time} value={`${selectedDate} at ${time}`}>
-                                        {selectedDate} at {time}
-                                        <Input value={`${selectedDate} at ${time}`} id={time} type="radio" name="time" required ></Input>
-                                    </Time>
+                                {loading && <h2>Loading</h2>}
+                                {times.map((time, index) => {
+                                    const delay = index * 100;
+                                    
+                                    if(bookedTimes.includes(time)){
+                                        return(
+                                            <TimeAnimation key={time} loading={loading} delay={delay}>
+                                                <Time className="disabled" value={`${selectedDate} at ${time}`}>
+                                                    {selectedDate} at {time}
+                                                    <Input hidden className="disabled" type="radio" name="time" disabled />
+                                                </Time>
+                                            </TimeAnimation>
+                                        ) 
+                                    }
+                                    return (
+                                        <TimeAnimation key={time} loading={loading} delay={delay} >
+                                            <Time htmlFor={time} value={`${selectedDate} at ${time}`} className={ time === userTime && "chosen"}>
+                                                <div>{selectedDate} at {time}</div>
+                                                <Input value={`${selectedDate} at ${time}`} id={time} type="radio" hidden name="time" required ></Input>
+                                            </Time>
+                                        </TimeAnimation>
                                     )
                                 })}
                             </TimeContainer>
@@ -155,8 +175,12 @@ const BookAppointment = () => {
                     <H1>No Date Selected</H1>
                 }
                 <ButtonAndErrMsg>
-                    <Button type="submit" className="btn-grad">Book</Button>
-                </ButtonAndErrMsg>  
+                    {userTime && 
+                        <Button type="submit" className="btn-grad">
+                            Book
+                        </Button>
+                    }
+                </ButtonAndErrMsg>
             </Form>
     </>
     )
@@ -180,23 +204,42 @@ const TimeContainer = styled.ul`
 `;
 
 const Time = styled.label`
-    list-style: none;
+    color: white;
     display: flex;
     justify-content: center;
-    color: black;
     padding: 50px;
     margin-bottom: 20px;
     margin-left: -150px;
-    background: white;
+    cursor: pointer;
     border-radius: 10px;
+    background: linear-gradient(45deg, rgba(0,73,129,1) 0%, rgba(0,100,170,1) 50%, rgba(0,73,129,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -7px 0px inset;
+    
 
-        &.disabled{
-            color: white;
-            background: grey;
-            &:hover{
-                cursor: not-allowed;
-            }
+    &:hover,
+    &.chosen{
+        animation: borderFill 0.5s forwards;
+        transform: translateY(-0.35em);
+    }
+
+    @keyframes borderFill {
+        from {
+            box-shadow: 0px #19E8FF;
         }
+        to {
+            box-shadow: 0px 12px 17px -1px #B7EDFF;
+        }
+    }
+
+    &.disabled{
+        color: black;
+        background: grey;
+        &:hover{
+            transform: translateY(0);
+            animation: none;
+            cursor: not-allowed;
+        }
+    }
 `;
 
 const DatePicker = styled.div`
@@ -251,26 +294,22 @@ const ButtonAndErrMsg = styled.div`
 
 const Button = styled.button`
     width: 200px;
-    height: 50px;
-    cursor: pointer;
+    height: 75px;
+    border: none;
+    color: white;
     font-size: 18px;
-    
-    &.btn-grad {background-image: linear-gradient(to right, #603813 0%, #b29f94  51%, #603813  100%)}
-        &.btn-grad {
-            transition: 0.5s;
-            background-size: 200% auto;
-            color: white;            
-            box-shadow: 0 0 20px #000;
-            border-radius: 10px;
-            border: none;
-            display: block;
-        }
+    cursor: pointer;
+    border-radius: 10px;
+    background: rgba(2,85,0,1);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 4px, rgba(0, 0, 0, 0.3) 0px 10px 17px -3px, rgba(0, 0, 0, 0.2) 0px -7px 0px inset;
+    transition: 400ms ease;
 
-        &.btn-grad:hover {
-            background-position: right center;
-            color: #fff;
-            text-decoration: none;
-        }
+    &:hover{
+        color: white;
+        background: rgba(0,129,15,1);
+        font-size: 20px;
+        outline:  2px solid white;
+    }
 `;
 
 export default BookAppointment;
