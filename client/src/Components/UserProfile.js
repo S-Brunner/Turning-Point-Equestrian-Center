@@ -82,7 +82,7 @@ const UserProfile = () => {
     
 const ImgContainer = styled.div`
     width: 100%;
-    max-height: 90vh;
+    max-height: 87vh;
     overflow: hidden;
     margin-top: -23%;
     margin-bottom: -1px;

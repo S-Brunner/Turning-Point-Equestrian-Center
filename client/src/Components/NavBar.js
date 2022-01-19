@@ -89,7 +89,7 @@ const NavContainer = styled.div`
     align-items: center;
     width: fit-content;
     width: 100%;
-    height: 50px;
+    height: 55px;
     margin-top: -15px;
     font-size: 18px;
     background: rgb(93, 34, 13);

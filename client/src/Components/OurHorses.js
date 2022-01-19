@@ -25,7 +25,7 @@ const ImgContainer = styled.div`
     width: 100%;
     max-height: 90vh;
     overflow: hidden;
-    margin-top: -23%;
+    margin-top: -25%;
 `;
 
 const Image = styled.img`

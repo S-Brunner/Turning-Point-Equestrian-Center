@@ -72,7 +72,7 @@ const Container = styled.div`
 const BlackOut = styled.div`
         background: rgba(0, 0, 0, 0.5);
         width: 100%;
-        height: 84vh;
+        height: 82vh;
         margin-top: -1.75%;
         position: absolute;
 

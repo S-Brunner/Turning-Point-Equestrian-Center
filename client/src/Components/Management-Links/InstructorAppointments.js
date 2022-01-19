@@ -215,7 +215,7 @@ const Section = styled.h2`
 const ImgContainer = styled.div`
     width: 100%;
     background: rgb(75, 28, 11);
-    height: 90vh;
+    height: 87vh;
     margin-top: -23%;
 `;
 
